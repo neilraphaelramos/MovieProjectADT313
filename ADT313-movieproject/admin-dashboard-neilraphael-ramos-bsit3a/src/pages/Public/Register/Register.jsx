@@ -19,7 +19,6 @@ function Register() {
   const middleNameRef = useRef();
   const lastNameRef = useRef();
   const contactNoRef = useRef();
-  const roleRef = useRef();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const userInputDebounce = useDebounce({ email, password, firstName, middleName, lastName, contactNo, role }, 2000);
   const [debounceState, setDebounceState] = useState(false);
@@ -203,7 +202,7 @@ function Register() {
               </label>
             </div>
 
-            <div className="button-box">
+            <div className="button-box-register">
               <button
                 type="button"
                 className="btn btn-primary"

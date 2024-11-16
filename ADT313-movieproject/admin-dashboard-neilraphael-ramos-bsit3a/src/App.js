@@ -60,15 +60,15 @@ const router = createBrowserRouter([
                 element: <CastForm />
               },
               {
-                path: '/main/movies/form/:movieId/cast-and-crews',
+                path: '/main/movies/form/:movieId/cast-and-crews/:tmdbId?',
                 element: <CastForm />
               },
               {
-                path: '/main/movies/form/:movieId/photos',
+                path: '/main/movies/form/:movieId/photos/:tmdbId?',
                 element: <PhotoForm />
               },
               {
-                path: '/main/movies/form/:movieId/videos',
+                path: '/main/movies/form/:movieId/videos/:tmdbId?',
                 element: <VideoForm />
               },
             ]

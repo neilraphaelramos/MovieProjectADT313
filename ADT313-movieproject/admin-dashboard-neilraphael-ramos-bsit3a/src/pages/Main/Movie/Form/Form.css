@@ -131,10 +131,6 @@ textarea {
   border-radius: 10px;
 }
 
-nav {
-  margin-top: 2rem;
-}
-
 nav ul {
   list-style: none;
   padding: 0;
@@ -142,9 +138,21 @@ nav ul {
 }
 
 nav li {
-  display: inline;
-  border: solid;
+  display: inline-block;
   border-width: 1px 1px 0 1px;
   margin: 0 5px 0 0;
   cursor: pointer;
+  width: 200px;
+  text-align: center;
+  padding: 8px;
+}
+
+li:hover {
+  background-color: gray;
+}
+
+.photo-tab,
+.video-tab, 
+.cast-tab{
+  border-radius: 8px 8px 0px 0px;
 }

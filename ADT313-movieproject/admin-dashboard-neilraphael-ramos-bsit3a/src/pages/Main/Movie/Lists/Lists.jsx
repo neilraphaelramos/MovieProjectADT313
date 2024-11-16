@@ -84,7 +84,7 @@ const Lists = () => {
                                         type="button"
                                         className="btn btn-warning btn-sm me-2"
                                         onClick={() => {
-                                            navigate('/main/movies/form/' + movie.id);
+                                            navigate('/main/movies/form/' + movie.id + '/cast-and-crews/' + movie.tmdbId);
                                         }}
                                     >
                                         Edit

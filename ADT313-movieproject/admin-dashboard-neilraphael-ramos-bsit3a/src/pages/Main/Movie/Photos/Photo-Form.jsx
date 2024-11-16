@@ -1,9 +1,16 @@
 import React from 'react'
+import './Photo-Form.css'
 
 function PhotoForm() {
   return (
-    <div>
-        <h1>Change this for photos CRUD functionality component. Test 2</h1>
+    <div className='photo-box'>
+      <div className='Photo-View-Box'>
+        <h3>Photo Box</h3>
+      </div>
+      <div className='Photo-Search-Box'>
+        <h3>Search Box</h3>
+        <input/>
+      </div>
     </div>
   )
 }

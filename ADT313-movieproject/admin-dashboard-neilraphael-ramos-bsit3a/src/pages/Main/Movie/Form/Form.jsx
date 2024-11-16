@@ -15,8 +15,42 @@ const Form = () => {
     const [pagebtn, setPageBtn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null); // Error state for displaying error messages
+    const [tab, setTab] = useState('cast')
     const navigate = useNavigate();
     let { movieId } = useParams();
+
+    useEffect(() => {
+        tabselector();
+    })
+
+    const tabselector = () => {
+        const castTab = document.querySelector('.cast-tab');
+        const videoTab = document.querySelector('.video-tab');
+        const photoTab = document.querySelector('.photo-tab');
+        switch (tab) {
+            case 'cast':
+                if (castTab) {
+                    castTab.style.backgroundColor = 'gray';
+                    videoTab.style.backgroundColor = '';
+                    photoTab.style.backgroundColor = '';
+                }
+                break;
+            case 'video':
+                if (videoTab) {
+                    videoTab.style.backgroundColor = 'gray';
+                    castTab.style.backgroundColor = '';
+                    photoTab.style.backgroundColor = '';
+                }
+                break;
+            case 'photo':
+                if (photoTab) {
+                    photoTab.style.backgroundColor = 'gray';
+                    videoTab.style.backgroundColor = '';
+                    castTab.style.backgroundColor = '';
+                }
+                break;
+        }
+    }
 
     const handleSearch = useCallback(async (page = 1) => {
         setIsLoading(true);
@@ -62,21 +96,20 @@ const Form = () => {
             return;
         }
 
-        const data = {
-            tmdbId: selectedMovie.id,
-            title: selectedMovie.title,
-            overview: selectedMovie.overview,
-            popularity: selectedMovie.popularity,
-            releaseDate: selectedMovie.release_date,
-            voteAverage: selectedMovie.vote_average,
-            backdropPath: `https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`,
-            posterPath: `https://image.tmdb.org/t/p/original/${selectedMovie.poster_path}`,
-            isFeatured: 0,
-        };
-
         try {
             if (movieId) {
                 // Update existing movie
+                const data = {
+                    tmdbId: selectedMovie.id,
+                    title: selectedMovie.title,
+                    overview: selectedMovie.overview,
+                    popularity: selectedMovie.popularity,
+                    releaseDate: selectedMovie.release_date,
+                    voteAverage: selectedMovie.vote_average,
+                    backdropPath: `https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`,
+                    posterPath: `https://image.tmdb.org/t/p/original/${selectedMovie.poster_path}`,
+                    isFeatured: 0,
+                };
                 await axios({
                     method: 'PATCH',
                     url: `/movies/${movieId}`,
@@ -88,6 +121,17 @@ const Form = () => {
                 alert('Update Success');
             } else {
                 // Create new movie
+                const data = {
+                    tmdbId: selectedMovie.id,
+                    title: selectedMovie.title,
+                    overview: selectedMovie.overview,
+                    popularity: selectedMovie.popularity,
+                    releaseDate: selectedMovie.release_date,
+                    voteAverage: selectedMovie.vote_average,
+                    backdropPath: `https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`,
+                    posterPath: `https://image.tmdb.org/t/p/original/${selectedMovie.poster_path}`,
+                    isFeatured: 0,
+                };
                 await axios({
                     method: 'post',
                     url: '/movies',
@@ -113,6 +157,7 @@ const Form = () => {
                     setMovie(response.data);
                     setSelectedMovie({
                         id: response.data.tmdbId,
+                        tmdbId: response.data.id,
                         title: response.data.title,
                         overview: response.data.overview,
                         popularity: response.data.popularity,
@@ -125,7 +170,6 @@ const Form = () => {
                     console.error(err);
                 }
             };
-
             fetchMovie();
         }
     }, [movieId]);
@@ -174,7 +218,7 @@ const Form = () => {
                                 <p className="text-searching">Searching...</p>
                             ) : (
                                 searchedMovieList.map((movie) => (
-                                    <p 
+                                    <p
                                         key={movie.id}
                                         className="list-movie"
                                         onClick={() => handleSelectMovie(movie)}
@@ -237,7 +281,6 @@ const Form = () => {
                         <label>Title</label>
                         <input
                             type="text"
-                            className="form-control"
                             value={selectedMovie ? selectedMovie.title : ''}
                             onChange={(e) => setSelectedMovie({ ...selectedMovie, title: e.target.value })}
                             disabled={movieId === undefined}
@@ -245,7 +288,6 @@ const Form = () => {
 
                         <label>Overview</label>
                         <textarea
-                            className="form-control"
                             rows={5}
                             value={selectedMovie ? selectedMovie.overview : ''}
                             onChange={(e) => setSelectedMovie({ ...selectedMovie, overview: e.target.value })}
@@ -255,7 +297,6 @@ const Form = () => {
                         <label>Popularity</label>
                         <input
                             type="number"
-                            className="form-control"
                             value={selectedMovie ? selectedMovie.popularity : ''}
                             onChange={(e) => setSelectedMovie({ ...selectedMovie, popularity: e.target.value })}
                             step={0.1}
@@ -265,7 +306,6 @@ const Form = () => {
                         <label>Release Date</label>
                         <input
                             type="date"
-                            className="form-control"
                             value={selectedMovie ? selectedMovie.release_date : ''}
                             onChange={(e) => setSelectedMovie({ ...selectedMovie, release_date: e.target.value })}
                             disabled={movieId === undefined}
@@ -274,7 +314,6 @@ const Form = () => {
                         <label>Vote Average</label>
                         <input
                             type="number"
-                            className="form-control"
                             value={selectedMovie ? selectedMovie.vote_average : ''}
                             onChange={(e) => setSelectedMovie({ ...selectedMovie, vote_average: e.target.value })}
                             step={0.1}
@@ -299,23 +338,32 @@ const Form = () => {
                     <nav>
                         <ul className='tabs'>
                             <li
+                                className='cast-tab'
                                 onClick={() => {
-                                    navigate(`/main/movies/form/${movieId}/cast-and-crews`);
+                                    setTab('cast')
+                                    navigate(`/main/movies/form/${movieId}/cast-and-crews/${selectedMovie.id}`);
                                 }}
+                                onChange={tabselector}
                             >
                                 Cast & Crews
                             </li>
                             <li
+                                className='video-tab'
                                 onClick={() => {
-                                    navigate(`/main/movies/form/${movieId}/videos`);
+                                    setTab('video')
+                                    navigate(`/main/movies/form/${movieId}/videos/${selectedMovie.id}`);
                                 }}
+                                onChange={tabselector}
                             >
                                 Videos
                             </li>
                             <li
+                                className='photo-tab'
                                 onClick={() => {
-                                    navigate(`/main/movies/form/${movieId}/photos`);
+                                    setTab('photo')
+                                    navigate(`/main/movies/form/${movieId}/photos/${selectedMovie.id}`);
                                 }}
+                                onChange={tabselector}
                             >
                                 Photos
                             </li>

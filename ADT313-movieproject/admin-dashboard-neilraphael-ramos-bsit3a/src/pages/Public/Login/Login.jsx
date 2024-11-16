@@ -134,7 +134,7 @@ function Login() {
                 {isShowPassword ? 'Hide' : 'Show'} Password
               </label>
             </div>
-            <div className='button-box'>
+            <div className='button-box-login'>
               <button
                 type="button"
                 className="btn"

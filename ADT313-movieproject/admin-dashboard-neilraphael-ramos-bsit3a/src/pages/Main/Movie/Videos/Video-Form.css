@@ -1,0 +1,25 @@
+.video-box {
+    background-color: gray;
+    height: 350px;
+    border-radius: 0px 5px 5px 5px;
+    display: flex;
+    align-items: center;
+}
+
+.Video-View-Box,
+.Video-Search-Box {
+    flex: auto;
+    padding: 10px;
+    text-align: center;
+    height: 310px;
+}
+
+.Video-Search-Box {
+    width: 397px;
+    background-color: rgb(96, 96, 96);
+}
+
+.Video-View-Box {
+    width: 900px;
+    background-color: rgb(59, 59, 59);
+}
