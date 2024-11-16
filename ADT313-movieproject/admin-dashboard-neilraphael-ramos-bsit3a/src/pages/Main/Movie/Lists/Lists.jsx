@@ -46,12 +46,12 @@ const Lists = () => {
     };
 
     return (
-        <div className="bg-custom text-light">
-            <div className="d-flex justify-content-between">
+        <div className="bg-custom">
+            <div className="top-context">
                 <h2>List of Movies</h2>
                 <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn-top btn-primary"
                     onClick={() => {
                         navigate('/main/movies/form');
                     }}
@@ -59,7 +59,7 @@ const Lists = () => {
                     Create new
                 </button>
             </div>
-            <div className="table-responsive mt-3 rounded">
+            <div className="table-responsive mt-3">
                 <table>
                     <thead>
                         <tr>

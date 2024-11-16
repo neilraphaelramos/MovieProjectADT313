@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '../../../utils/hooks/useDebounce';
 import axios from 'axios';
+import './Login.css'
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -63,7 +64,7 @@ function Login() {
       .then((res) => {
         console.log(res);
         localStorage.setItem('accessToken', res.data.access_token);
-        localStorage.setItem('user' , JSON.stringify(res.data.user));
+        localStorage.setItem('user', JSON.stringify(res.data.user));
         setIsError(false);
         setAlertMessage(res.data.message);
         setTimeout(() => {
@@ -88,67 +89,55 @@ function Login() {
 
   return (
     <div>
-      <div className='d-flex justify-content-center align-items-center color-page' style={{ height: '100vh' }}>
-        <div className='p-4 w-25 rounded shadow'
-          style={{
-          background: 'rgba(255, 255, 255, 0.6)',
-          backdropFilter: 'blur(10px)'
-        }}
-        >
-        {alertMessage && (
-          <div className={`text-center  alert ${isError ? 'alert-danger' : 'alert-success'}`} role="alert">
-            {alertMessage}
-          </div>
-        )}
-          <h1 className="text-center mb-3"><strong>Welcome to Movie Web App!</strong></h1>
-          <p className="text-center">Unlock the magic of cinema. Explore, discover, and immerse yourself in a world of movies like never before.</p>
-          <form>
-            <div className="form-group mb-3">
-              <label htmlFor="email"><strong>E-mail:</strong></label>
-              <input
-                type="text"
-                className="form-control"
-                id="email"
-                name="email"
-                ref={emailRef}
-                onChange={(e) => handleOnChange(e, 'email')}
-              />
-              {debounceState && isFieldsDirty && email === '' && (
-                <span className="text-danger">This field is required</span>
-              )}
+      <div className="color-page">
+        <div className="Login-Form">
+          {alertMessage && (
+            <div className="text-message-box">
+              {alertMessage}
             </div>
+          )}
+          <h1 className="text-title"><strong>Welcome to Movie Web App!</strong></h1>
+          <p className="text-description">Unlock the magic of cinema. Explore, discover, and immerse yourself in a world of movies like never before.</p>
+          <hr></hr>
+          <form className='box-form'>
+            <label htmlFor="email"><strong>E-mail:</strong></label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              ref={emailRef}
+              onChange={(e) => handleOnChange(e, 'email')}
+            />
+            {debounceState && isFieldsDirty && email === '' && (
+              <span className="text-danger"><strong>This field is required</strong></span>
+            )}
 
-            <div className="form-group mb-3">
-              <label htmlFor="password"><strong>Password:</strong></label>
-              <input
-                type={isShowPassword ? 'text' : 'password'}
-                className="form-control"
-                id="password"
-                name="password"
-                ref={passwordRef}
-                onChange={(e) => handleOnChange(e, 'password')}
-              />
-              {debounceState && isFieldsDirty && password === '' && (
-                <span className="text-danger">This field is required</span>
-              )}
-            </div>
+            <label htmlFor="password"><strong>Password:</strong></label>
+            <input
+              type={isShowPassword ? 'text' : 'password'}
+              id="password"
+              name="password"
+              ref={passwordRef}
+              onChange={(e) => handleOnChange(e, 'password')}
+            />
+            {debounceState && isFieldsDirty && password === '' && (
+              <span className="text-danger"><strong>This field is required</strong></span>
+            )}
 
-            <div className="form-check mb-3">
+            <div className="form-check">
               <input
                 type="checkbox"
-                className="form-check-input"
                 id="showPassword"
                 onClick={handleShowPassword}
               />
-              <label className="form-check-label" htmlFor="showPassword">
+              <label htmlFor="showPassword">
                 {isShowPassword ? 'Hide' : 'Show'} Password
               </label>
             </div>
-
-            <div className="d-grid gap-2">
+            <div className='button-box'>
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn"
                 disabled={status === 'loading'}
                 onClick={() => {
                   if (email && password) {
@@ -166,11 +155,12 @@ function Login() {
               >
                 {status === 'idle' ? 'Login' : 'Loading...'}
               </button>
-            </div>
 
-            <div className="mt-3 text-center">
-              <a href="/register">Don't have an account? Register</a>
+              <div className="text-center">
+                <a href="/register">Don't have an account? Register</a>
+              </div>
             </div>
+            
           </form>
         </div>
       </div>

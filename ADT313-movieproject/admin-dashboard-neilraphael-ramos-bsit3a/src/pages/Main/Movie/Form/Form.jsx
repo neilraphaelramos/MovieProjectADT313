@@ -131,28 +131,20 @@ const Form = () => {
     }, [movieId]);
 
     return (
-        <div className="overflow-auto"
-            style={{
-                maxHeight: '80vh',
-                overflowX: 'hidden',
-                overflowY: 'scroll',
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none',
-            }}
-        >
-            <h2>{movieId ? 'Edit ' : 'Adding '} Movie</h2>
+        <div className="form-box">
+            <div className='title-text'>{movieId ? 'Edit ' : 'Adding '} Movie</div>
 
             {error && <p className="text-center text-danger">{error}</p>} {/* Display error messages */}
 
             {movieId === undefined && (
                 <>
                     <div className="search-container mt-3">
-                        <div className="form-group">
+                        <div>
                             <label>Search Movie: {" "}</label>
-                            <div className="d-flex">
+                            <div className="search-with-btn">
                                 <input
                                     type="text"
-                                    className="form-control me-2"
+                                    className="search-bar"
                                     onChange={(event) => {
                                         setQuery(event.target.value);
                                         setNotFound(false);
@@ -161,11 +153,11 @@ const Form = () => {
                                         setCurrentPage(1);
                                         setPageBtn(false);
                                     }}
-                                    placeholder='Enter movie title'
+                                    placeholder='Enter Movie Title'
                                 />
                                 <button
                                     type="button"
-                                    className="btn btn-primary"
+                                    className="btn-search btn-primary"
                                     onClick={() => handleSearch(1)}
                                 >
                                     Search
@@ -173,27 +165,18 @@ const Form = () => {
                             </div>
                         </div>
 
-                        <div
-                            className="searched-movie mt-3 overflow-auto"
-                            style={{
-                                maxHeight: '200px',
-                                overflowX: 'hidden',
-                                overflowY: 'scroll',
-                                scrollbarWidth: 'none',
-                                msOverflowStyle: 'none',
-                            }}
-                        >
+                        <div className="searched-movie">
                             {notfound ? (
-                                <p className="text-center text-white bg-danger p-2 rounded" style={{ opacity: 0.6 }}>
+                                <p className="text-warning">
                                     Movie not found
                                 </p>
                             ) : isLoading ? (
-                                <p className="text-center">Searching...</p>
+                                <p className="text-searching">Searching...</p>
                             ) : (
                                 searchedMovieList.map((movie) => (
-                                    <p
+                                    <p 
                                         key={movie.id}
-                                        className="border p-2"
+                                        className="list-movie"
                                         onClick={() => handleSelectMovie(movie)}
                                     >
                                         {movie.original_title}
@@ -205,7 +188,7 @@ const Form = () => {
 
                     {/* Pagination Controls */}
                     {totalPages > 0 && !notfound && pagebtn && (
-                        <div className="mt-3 d-flex justify-content-center">
+                        <div className="page-form">
                             <button
                                 className="btn btn-secondary me-2"
                                 onClick={() => {
@@ -218,7 +201,7 @@ const Form = () => {
                             >
                                 Previous
                             </button>
-                            <span className="align-self-center">Page {currentPage} of {totalPages}</span>
+                            <span>Page {currentPage} of {totalPages}</span>
                             <button
                                 className="btn btn-secondary ms-2"
                                 onClick={() => {
@@ -237,10 +220,8 @@ const Form = () => {
                 </>
             )}
 
-            <div className="row justify-content-center">
-                <div className="col-md-5 border d-flex justify-content-center"
-                    style={{ maxHeight: "500px", maxWidth: "320px" }}
-                >
+            <div className="movie-box">
+                <div className="image-box">
                     <img
                         className="img-fluid"
                         src={selectedMovie?.poster_path
@@ -251,69 +232,58 @@ const Form = () => {
                     />
                 </div>
 
-                <div className="col-md-5">
-                    <form>
-                        <div className="form-group">
-                            <label>Title</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={selectedMovie ? selectedMovie.title : ''}
-                                onChange={(e) => setSelectedMovie({ ...selectedMovie, title: e.target.value })}
-                                disabled={movieId === undefined}
-                            />
-                        </div>
+                <div>
+                    <form className="movie-details-box">
+                        <label>Title</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={selectedMovie ? selectedMovie.title : ''}
+                            onChange={(e) => setSelectedMovie({ ...selectedMovie, title: e.target.value })}
+                            disabled={movieId === undefined}
+                        />
 
-                        <div className="form-group">
-                            <label>Overview</label>
-                            <textarea
-                                className="form-control"
-                                rows={5}
-                                value={selectedMovie ? selectedMovie.overview : ''}
-                                onChange={(e) => setSelectedMovie({ ...selectedMovie, overview: e.target.value })}
-                                disabled={movieId === undefined}
-                            />
-                        </div>
+                        <label>Overview</label>
+                        <textarea
+                            className="form-control"
+                            rows={5}
+                            value={selectedMovie ? selectedMovie.overview : ''}
+                            onChange={(e) => setSelectedMovie({ ...selectedMovie, overview: e.target.value })}
+                            disabled={movieId === undefined}
+                        />
 
-                        <div className="form-group">
-                            <label>Popularity</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={selectedMovie ? selectedMovie.popularity : ''}
-                                onChange={(e) => setSelectedMovie({ ...selectedMovie, popularity: e.target.value })}
-                                step={0.1}
-                                disabled={movieId === undefined}
-                            />
-                        </div>
+                        <label>Popularity</label>
+                        <input
+                            type="number"
+                            className="form-control"
+                            value={selectedMovie ? selectedMovie.popularity : ''}
+                            onChange={(e) => setSelectedMovie({ ...selectedMovie, popularity: e.target.value })}
+                            step={0.1}
+                            disabled={movieId === undefined}
+                        />
 
-                        <div className="form-group">
-                            <label>Release Date</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                value={selectedMovie ? selectedMovie.release_date : ''}
-                                onChange={(e) => setSelectedMovie({ ...selectedMovie, release_date: e.target.value })}
-                                disabled={movieId === undefined}
-                            />
-                        </div>
+                        <label>Release Date</label>
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={selectedMovie ? selectedMovie.release_date : ''}
+                            onChange={(e) => setSelectedMovie({ ...selectedMovie, release_date: e.target.value })}
+                            disabled={movieId === undefined}
+                        />
 
-                        <div className="form-group">
-                            <label>Vote Average</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={selectedMovie ? selectedMovie.vote_average : ''}
-                                onChange={(e) => setSelectedMovie({ ...selectedMovie, vote_average: e.target.value })}
-                                step={0.1}
-                                disabled={movieId === undefined}
-                            />
-                        </div>
-
-                        <div className="form-group mt-2">
+                        <label>Vote Average</label>
+                        <input
+                            type="number"
+                            className="form-control"
+                            value={selectedMovie ? selectedMovie.vote_average : ''}
+                            onChange={(e) => setSelectedMovie({ ...selectedMovie, vote_average: e.target.value })}
+                            step={0.1}
+                            disabled={movieId === undefined}
+                        />
+                        <div className='button-box'>
                             <button
                                 type="button"
-                                className="btn btn-success"
+                                className="btn btn-save"
                                 onClick={handleSave}
                                 disabled={!selectedMovie}
                             >
@@ -322,38 +292,38 @@ const Form = () => {
                         </div>
                     </form>
                 </div>
-                {movieId !== undefined && selectedMovie && (
-                    <div>
-                        <hr />
-                        <nav>
-                            <ul className='tabs'>
-                                <li
-                                    onClick={() => {
-                                        navigate(`/main/movies/form/${movieId}/cast-and-crews`);
-                                    }}
-                                >
-                                    Cast & Crews
-                                </li>
-                                <li
-                                    onClick={() => {
-                                        navigate(`/main/movies/form/${movieId}/videos`);
-                                    }}
-                                >
-                                    Videos
-                                </li>
-                                <li
-                                    onClick={() => {
-                                        navigate(`/main/movies/form/${movieId}/photos`);
-                                    }}
-                                >
-                                    Photos
-                                </li>
-                            </ul>
-                        </nav>
-                        <Outlet />
-                    </div>
-                )}
             </div>
+            {movieId !== undefined && selectedMovie && (
+                <div>
+                    <hr />
+                    <nav>
+                        <ul className='tabs'>
+                            <li
+                                onClick={() => {
+                                    navigate(`/main/movies/form/${movieId}/cast-and-crews`);
+                                }}
+                            >
+                                Cast & Crews
+                            </li>
+                            <li
+                                onClick={() => {
+                                    navigate(`/main/movies/form/${movieId}/videos`);
+                                }}
+                            >
+                                Videos
+                            </li>
+                            <li
+                                onClick={() => {
+                                    navigate(`/main/movies/form/${movieId}/photos`);
+                                }}
+                            >
+                                Photos
+                            </li>
+                        </ul>
+                    </nav>
+                    <Outlet />
+                </div>
+            )}
         </div>
     );
 };
