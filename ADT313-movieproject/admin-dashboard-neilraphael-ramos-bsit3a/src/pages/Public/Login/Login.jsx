@@ -1,6 +1,7 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '../../../utils/hooks/useDebounce';
+import { AuthContext } from '../../../utils/context/AuthContext';
 import axios from 'axios';
 import './Login.css'
 
@@ -15,6 +16,8 @@ function Login() {
   const [debounceState, setDebounceState] = useState(false);
   const [status, setStatus] = useState('idle');
   const navigate = useNavigate();
+
+  const { setAuthData } = useContext(AuthContext);
 
   //alert-box
   const [alertMessage, setAlertMessage] = useState('');
@@ -42,14 +45,6 @@ function Login() {
     }
   };
 
-  let apiEndpoint;
-
-  if (window.location.pathname.includes('/admin')) {
-    apiEndpoint = '/admin/login';
-  } else {
-    apiEndpoint = '/user/login';
-  }
-
   const handleLogin = async () => {
     const data = { email, password };
     setStatus('loading');
@@ -57,7 +52,7 @@ function Login() {
 
     await axios({
       method: 'post',
-      url: apiEndpoint,
+      url: '/admin/login',
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })
@@ -65,6 +60,10 @@ function Login() {
         console.log(res);
         localStorage.setItem('accessToken', res.data.access_token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
+        setAuthData({
+          accessToken: res.data.access_token,
+          user: res.data.user,
+        });
         setIsError(false);
         setAlertMessage(res.data.message);
         setTimeout(() => {
@@ -82,6 +81,12 @@ function Login() {
         }, 3000);
       });
   };
+
+  const { auth } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log('Auth Set Updated:', auth);
+  }, [auth]);
 
   useEffect(() => {
     setDebounceState(true);

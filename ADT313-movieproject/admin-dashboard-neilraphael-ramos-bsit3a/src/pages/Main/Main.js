@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import { AuthContext } from '../../utils/context/AuthContext';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faFilm, faTachometerAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -11,9 +12,10 @@ function Main() {
   const userInformation = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
 
+  const { clearAuthData } = useContext(AuthContext);
+
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
+    clearAuthData()
     navigate('/');
   };
 

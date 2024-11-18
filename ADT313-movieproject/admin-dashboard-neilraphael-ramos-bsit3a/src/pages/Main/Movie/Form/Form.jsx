@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useContext } from 'react';
 import { Outlet, useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../utils/context/AuthContext';
 import './Form.css'
 
 
@@ -18,6 +19,7 @@ const Form = () => {
     const [tab, setTab] = useState('cast')
     const navigate = useNavigate();
     let { movieId } = useParams();
+    const { auth } = useContext(AuthContext);
 
     useEffect(() => {
         tabselector();
@@ -90,7 +92,6 @@ const Form = () => {
     };
 
     const handleSave = async () => {
-        const accessToken = localStorage.getItem('accessToken');
         if (!selectedMovie) {
             alert('Please search and select a movie.');
             return;
@@ -115,7 +116,7 @@ const Form = () => {
                     url: `/movies/${movieId}`,
                     data: data,
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${auth.accessToken}`,
                     },
                 });
                 alert('Update Success');
@@ -137,7 +138,7 @@ const Form = () => {
                     url: '/movies',
                     data: data,
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${auth.accessToken}`,
                     },
                 });
                 alert('Save Success');

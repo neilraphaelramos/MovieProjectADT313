@@ -13,6 +13,7 @@ import CastForm from './pages/Main/Movie/Cast-and-Crew/Cast-Form';
 import PhotoForm from './pages/Main/Movie/Photos/Photo-Form';
 import VideoForm from './pages/Main/Movie/Videos/Video-Form';
 import UserLists from './pages/Main/User-Lists/UserLists';
+import { AuthProvider } from './utils/context/AuthContext';
 
 const router = createBrowserRouter([
   {
@@ -60,15 +61,15 @@ const router = createBrowserRouter([
                 element: <CastForm />
               },
               {
-                path: '/main/movies/form/:movieId/cast-and-crews/:tmdbId?',
+                path: '/main/movies/form/:movieId/cast-and-crews',
                 element: <CastForm />
               },
               {
-                path: '/main/movies/form/:movieId/photos/:tmdbId?',
+                path: '/main/movies/form/:movieId/photos',
                 element: <PhotoForm />
               },
               {
-                path: '/main/movies/form/:movieId/videos/:tmdbId?',
+                path: '/main/movies/form/:movieId/videos',
                 element: <VideoForm />
               },
             ]
@@ -86,9 +87,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className='App'>
-      <RouterProvider router={router} />
-    </div>
+    <AuthProvider>
+      <div className='App'>
+        <RouterProvider router={router} />
+      </div>
+    </AuthProvider>
   );
 }
 
