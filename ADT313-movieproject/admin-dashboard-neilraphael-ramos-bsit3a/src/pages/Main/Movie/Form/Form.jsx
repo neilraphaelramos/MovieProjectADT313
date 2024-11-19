@@ -51,6 +51,7 @@ const Form = () => {
                     castTab.style.backgroundColor = '';
                 }
                 break;
+            default:
         }
     }
 
@@ -342,7 +343,7 @@ const Form = () => {
                                 className='cast-tab'
                                 onClick={() => {
                                     setTab('cast')
-                                    navigate(`/main/movies/form/${movieId}/cast-and-crews/${selectedMovie.id}`);
+                                    navigate(`/main/movies/form/${movieId}/cast-and-crews`);
                                 }}
                                 onChange={tabselector}
                             >
@@ -352,7 +353,7 @@ const Form = () => {
                                 className='video-tab'
                                 onClick={() => {
                                     setTab('video')
-                                    navigate(`/main/movies/form/${movieId}/videos/${selectedMovie.id}`);
+                                    navigate(`/main/movies/form/${movieId}/videos`);
                                 }}
                                 onChange={tabselector}
                             >
@@ -362,7 +363,7 @@ const Form = () => {
                                 className='photo-tab'
                                 onClick={() => {
                                     setTab('photo')
-                                    navigate(`/main/movies/form/${movieId}/photos/${selectedMovie.id}`);
+                                    navigate(`/main/movies/form/${movieId}/photos`);
                                 }}
                                 onChange={tabselector}
                             >
