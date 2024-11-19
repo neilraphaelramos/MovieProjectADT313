@@ -12,11 +12,11 @@ function CastForm() {
   const [cast, setCast] = useState([]);
   const [castid, setCastId] = useState(undefined);
   const [selectedcast, setSelectedCast] = useState({})
-  const [error, setError] = useState(null);
+  const searchRef = useRef();
   const [notfound, setNotFound] = useState(false);
-  const nameRef = useRef()
+  const nameRef = useRef();
   const characterNameRef = useRef()
-  const urlRef = useRef()
+  const urlRef = useRef();
   let { movieId } = useParams();
 
   function getAll(movieId) {
@@ -44,7 +44,12 @@ function CastForm() {
     setNotFound(true);
     try {
       if (!query || query.trim() === '') {
+        searchRef.current.style.border = '2px solid red';
         console.log("Input is empty or undefined");
+        setTimeout(() => {
+          searchRef.current.style.border = '1px solid #ccc';
+          setNotFound(false);
+        }, 2000);
         return;
       }
       const response = await axios({
@@ -70,6 +75,13 @@ function CastForm() {
   }, [query])
 
   const handlesave = async () => {
+    if (!characterNameRef.current.value.trim()) {
+      characterNameRef.current.style.border = '2px solid red';
+      setTimeout(() => {
+        characterNameRef.current.style.border = '1px solid #ccc';
+      }, 2000);
+      return;
+    }
     try {
       const datacast = {
         userId: auth.user.userId,
@@ -114,10 +126,39 @@ function CastForm() {
       });
   }
 
+  const validateField = (fieldRef, fieldName) => {
+    if (!fieldRef.current.value.trim()) {
+      fieldRef.current.style.border = '2px solid red';
+      setTimeout(() => {
+        fieldRef.current.style.border = '1px solid #ccc';
+      }, 2000);
+      console.log(`${fieldName} cannot be empty.`)
+      return false;
+    }
+    return true;
+  };
+
   const castupdate = async (id) => {
     if (!selectedcast?.id) {
       alert("No cast selected to update.");
       return;
+    }
+
+    const validateFields = () => {
+      switch (true) {
+        case !validateField(nameRef, "Name"):
+          return false;
+        case !validateField(characterNameRef, "Character Name"):
+          return false;
+        case !validateField(urlRef, "URL"):
+          return false;
+        default:
+          return true;
+      }
+    };
+  
+    if (!validateFields()) {
+      return; // This is for stop if any valid is null
     }
 
     const isConfirm = window.confirm("Are you sure you want to update the cast?");
@@ -186,37 +227,43 @@ function CastForm() {
   return (
     <div className='cast-box'>
       <div className='Cast-View-Box'>
-        <div className='card-display-cast'>
-          <div className="card-wrapper">
-            {cast.map((actor) => (
-              <div key={actor.id} className="card">
-                <div className='buttons-group'>
-                  <button
-                    type='button'
-                    className='delete-button'
-                    onClick={() => handledelete(actor.id)}
-                  >
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                  </button>
-                  <button
-                    type='button'
-                    className='edit-button'
-                    onClick={() => castget(actor.id)}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                </div>
-                <img src={actor.url} alt={actor.name} style={{ width: '100%' }} className='image-casts' />
-                <div className="container">
-                  <h4><b>{actor.name}</b></h4>
-                  <p>{actor.characterName}</p>
-                  <div className="button-group">
+        {cast !== undefined && cast.length > 0 ? (
+          <div className='card-display-cast'>
+            <div className="card-wrapper">
+              {cast.map((actor) => (
+                <div key={actor.id} className="card">
+                  <div className='buttons-group'>
+                    <button
+                      type='button'
+                      className='delete-button'
+                      onClick={() => handledelete(actor.id)}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                    <button
+                      type='button'
+                      className='edit-button'
+                      onClick={() => castget(actor.id)}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                  </div>
+                  <img src={actor.url} alt={actor.name} style={{ width: '100%' }} className='image-casts' />
+                  <div className="container">
+                    <h4><b>{actor.name}</b></h4>
+                    <p>{actor.characterName}</p>
+                    <div className="button-group">
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className='no-cast'>
+            <h3>Cast not Found</h3>
+          </div>
+        )}
       </div>
       <div className='Search-Box'>
         <div className='parent-container'>
@@ -232,6 +279,7 @@ function CastForm() {
                     setSelectedCast({})
                   }}
                   placeholder='search cast name'
+                  ref={searchRef}
                 />
                 <button
                   className='button-search'
@@ -277,15 +325,18 @@ function CastForm() {
                   onChange={
                     (e) => setSelectedCast({ ...selectedcast, name: e.target.value })}
                   disabled={castid === undefined}
+                  ref={nameRef}
                 />
               </div>
               <div className='input-group'>
                 <label>
                   Character Name:
                 </label>
-                <input className='character-name'
+                <input
+                  className='character-name'
                   value={selectedcast.characterName || ''}
                   onChange={(e) => setSelectedCast({ ...selectedcast, characterName: e.target.value })}
+                  ref={characterNameRef}
                 />
               </div>
               <div className='input-group'>
@@ -296,6 +347,7 @@ function CastForm() {
                   value={selectedcast.profile_path || '' || selectedcast.url || ''}
                   onChange={(e) => setSelectedCast({ ...selectedcast, url: e.target.value })}
                   disabled={castid === undefined}
+                  ref={urlRef}
                 />
               </div>
             </div>

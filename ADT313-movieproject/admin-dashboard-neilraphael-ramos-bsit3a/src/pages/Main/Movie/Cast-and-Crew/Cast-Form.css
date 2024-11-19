@@ -222,3 +222,10 @@ label {
     object-fit: contain;
     border-radius: 10px;
 }
+
+.no-cast {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #9f9f9f;
+}
