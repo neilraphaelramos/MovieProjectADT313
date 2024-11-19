@@ -48,11 +48,10 @@ class AdminCastsGateway
 
     public function update(array $current, array $new): int
     {
-        $sql = "UPDATE casts SET name=:name,url=:url,characterName=:characterName, dateUpdate=:dateUpdated WHERE id =:id AND userId = :userId";
+        $sql = "UPDATE casts SET name=:name,url=:url,characterName=:characterName, dateUpdated=:dateUpdated WHERE id =:id AND userId = :userId";
         $res = $this->conn->prepare($sql);
         $dateUpdated = (new DateTime())->getTimeStamp();
         $res->bindValue(":userId",$current["userId"], PDO::PARAM_INT);
-        $res->bindValue(":movieId",$new["movieId"] ?? $current["movieId"], PDO::PARAM_INT);
         $res->bindValue(":name",$new["name"] ?? $current["name"], PDO::PARAM_STR);
         $res->bindValue(":url",$new["url"] ?? $current["url"], PDO::PARAM_STR);
         $res->bindValue(":characterName",$new["characterName"] ?? $current["characterName"], PDO::PARAM_STR);
