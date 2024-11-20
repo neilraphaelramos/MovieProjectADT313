@@ -120,7 +120,6 @@ function CastForm() {
         setCast(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching casts:", error.response.data);
         setSelectedCast(error.response.data);
         setCastId(error.response.data.id)
       });
@@ -156,40 +155,42 @@ function CastForm() {
           return true;
       }
     };
-  
+
     if (!validateFields()) {
       return; // This is for stop if any valid is null
-    }
+    } else {
+      const isConfirm = window.confirm("Are you sure you want to update the cast?");
+      if (isConfirm) {
+        const datacast = {
+          id: selectedcast.id,
+          userId: selectedcast.userId,
+          name: selectedcast.name,
+          url: selectedcast.url,
+          characterName: selectedcast.characterName,
+        };
 
-    const isConfirm = window.confirm("Are you sure you want to update the cast?");
-    if (isConfirm) {
-      const datacast = {
-        id: selectedcast.id,
-        userId: selectedcast.userId,
-        name: selectedcast.name,
-        url: selectedcast.url,
-        characterName: selectedcast.characterName,
-      };
-
-      console.table(datacast);
-      try {
-        const response = await axios({
-          method: 'patch',
-          url: `/admin/casts/${id}`,
-          data: datacast,
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${auth.accessToken}`,
-          },
-        });
-        console.log(response.data); // Log server response
-      } catch (error) {
-        console.error("Error updating cast:", error.response?.data || error.message);
-        alert('Updated Successfully');
-        handleclear();
-        getAll(movieId)
+        console.table(datacast);
+        try {
+          const response = await axios({
+            method: 'patch',
+            url: `/admin/casts/${id}`,
+            data: datacast,
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${auth.accessToken}`,
+            },
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error updating cast:", error.response?.data || error.message);
+          alert('Updated Successfully');
+          handleclear();
+          getAll(movieId)
+        }
       }
     }
+
+
   };
 
   const handleclear = useCallback(() => {

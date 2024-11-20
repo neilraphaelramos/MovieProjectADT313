@@ -112,6 +112,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px;
 }
 
 .cast-detail-box {
@@ -165,6 +166,7 @@ label {
     display: flex;
     gap: 10px;
     align-items: center;
+    padding: 10px;
 }
 
 .button-search,

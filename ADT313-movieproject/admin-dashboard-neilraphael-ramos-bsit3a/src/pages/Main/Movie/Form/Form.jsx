@@ -23,6 +23,7 @@ const Form = () => {
     const { auth } = useContext(AuthContext);
 
     useEffect(() => {
+        console.table(selectedMovie);
         tabselector();
     })
 
@@ -112,8 +113,8 @@ const Form = () => {
                     popularity: selectedMovie.popularity,
                     releaseDate: selectedMovie.release_date,
                     voteAverage: selectedMovie.vote_average,
-                    backdropPath: `https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`,
-                    posterPath: `https://image.tmdb.org/t/p/original/${selectedMovie.poster_path}`,
+                    backdropPath: selectedMovie.backdrop_path,
+                    posterPath: selectedMovie.poster_path,
                     isFeatured: 0,
                 };
                 await axios({
@@ -167,6 +168,7 @@ const Form = () => {
                         title: response.data.title,
                         overview: response.data.overview,
                         popularity: response.data.popularity,
+                        backdrop_path: response.data.backdropPath,
                         poster_path: response.data.posterPath,
                         release_date: response.data.releaseDate,
                         vote_average: response.data.voteAverage,
