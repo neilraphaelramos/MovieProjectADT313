@@ -54,7 +54,7 @@ class AdminPhotosGateway
         $res->bindValue(":movieId",$new["movieId"] ?? $current["movieId"], PDO::PARAM_INT);
         $res->bindValue(":url",$new["url"] ?? $current["url"], PDO::PARAM_STR);
         $res->bindValue(":description",$new["description"] ?? $current["description"], PDO::PARAM_STR);
-        $res->bindValue(":dateUpdated",$dateUpdated, PDO::PARAM_STR);
+        //$res->bindValue(":dateUpdated",$dateUpdated, PDO::PARAM_STR);
         $res->bindValue(":id", $current["id"], PDO::PARAM_INT);
 
         $res->execute();
