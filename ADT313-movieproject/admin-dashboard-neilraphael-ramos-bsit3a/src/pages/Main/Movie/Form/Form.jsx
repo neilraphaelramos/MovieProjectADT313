@@ -16,7 +16,8 @@ const Form = () => {
     const [pagebtn, setPageBtn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null); // Error state for displaying error messages
-    const [tab, setTab] = useState('cast')
+    const tabset = JSON.parse(localStorage.getItem('tab'));
+    const [tab, setTab] = useState(tabset);      
     const navigate = useNavigate();
     let { movieId } = useParams();
     const { auth } = useContext(AuthContext);
@@ -29,7 +30,7 @@ const Form = () => {
         const castTab = document.querySelector('.cast-tab');
         const videoTab = document.querySelector('.video-tab');
         const photoTab = document.querySelector('.photo-tab');
-        
+
         switch (tab) {
             case 'cast':
                 if (castTab) {
@@ -54,6 +55,8 @@ const Form = () => {
                 break;
             default:
         }
+        //this will update the tab select on localStorage
+        localStorage.setItem('tab', JSON.stringify(tab));
     }
 
     const handleSearch = useCallback(async (page = 1) => {

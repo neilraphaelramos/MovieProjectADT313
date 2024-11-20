@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     // Save to localStorage for persistence
     localStorage.setItem('accessToken', data.accessToken);
     localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('tab', JSON.stringify('cast'));
   };
 
   const clearAuthData = () => {
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }) => {
     // Remove from localStorage
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('tab');
   };
 
   return (

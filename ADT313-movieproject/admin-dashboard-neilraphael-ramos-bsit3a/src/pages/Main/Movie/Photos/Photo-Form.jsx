@@ -20,6 +20,7 @@ function PhotoForm() {
     })
       .then((response) => {
         setPhotos(response.data.photos);
+        console.table(response.data.photos)
       })
       .catch((error) => {
         console.error("Error fetching casts:", error.response.data);

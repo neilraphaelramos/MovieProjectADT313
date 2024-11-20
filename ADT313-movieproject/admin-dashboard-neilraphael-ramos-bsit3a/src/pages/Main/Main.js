@@ -14,6 +14,10 @@ function Main() {
 
   const { clearAuthData } = useContext(AuthContext);
 
+  const handleResetTab = () => {
+    localStorage.setItem('tab', JSON.stringify('cast'));
+  }
+
   const handleLogout = () => {
     clearAuthData()
     navigate('/');
@@ -46,7 +50,7 @@ function Main() {
               </a>
             </li>
             <li>
-              <a href="/main/movies" className="nav-link" title="Movies">
+              <a href="/main/movies" className="nav-link" title="Movies" onClick={handleResetTab}>
                 <center>
                   <FontAwesomeIcon icon={faFilm} style={{ fontSize: '24px', color: 'white' }} />
                 </center>
