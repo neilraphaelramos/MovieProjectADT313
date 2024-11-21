@@ -23,7 +23,6 @@ const Form = () => {
     const { auth } = useContext(AuthContext);
 
     useEffect(() => {
-        console.table(selectedMovie);
         tabselector();
     })
 

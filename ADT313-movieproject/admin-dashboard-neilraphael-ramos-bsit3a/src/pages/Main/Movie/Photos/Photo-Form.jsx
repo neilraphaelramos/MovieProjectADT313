@@ -10,9 +10,9 @@ function PhotoForm() {
   const { auth } = useContext(AuthContext);
   const [photoid, setPhotoId] = useState(undefined);
   const urlRef = useRef();
-  const descriptionRef = useRef()
+  const descriptionRef = useRef();
   const [photos, setPhotos] = useState([]);
-  const [selectedphoto, setSelectedPhoto] = useState({})
+  const [selectedphoto, setSelectedPhoto] = useState({});
   let { movieId } = useParams();
 
   function getAll(movieId) {
@@ -28,7 +28,7 @@ function PhotoForm() {
         setPhotos(response.data.photos);
       })
       .catch((error) => {
-        console.error("Error fetching casts:", error.response.data);
+        console.error("Error fetching Photos:", error.response.data);
       });
   }
 

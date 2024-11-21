@@ -61,14 +61,12 @@ function Register() {
     }
   };
 
-  let apiEndpoint = window.location.pathname.includes('/adminmode') ? '/adminmode/register' : '/user/register';
-
   const handleRegister = async () => {
     const data = { email, password, firstName, middleName, lastName, contactNo, role };
     setStatus('loading');
     await axios({
       method: 'post',
-      url: apiEndpoint,
+      url: '/admin/register',
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })

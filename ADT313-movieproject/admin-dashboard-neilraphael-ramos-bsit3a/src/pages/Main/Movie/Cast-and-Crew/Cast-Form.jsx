@@ -103,6 +103,7 @@ function CastForm() {
       handleClearInput();
       getAll(movieId);
     } catch (error) {
+      alert("Nothing to Save. Data is Empty...")
       console.log(error);
     }
   }
@@ -189,8 +190,6 @@ function CastForm() {
         }
       }
     }
-
-
   };
 
   const handleclear = useCallback(() => {

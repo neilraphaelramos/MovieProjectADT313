@@ -231,3 +231,19 @@ label {
     font-size: 1.5rem;
     color: #9f9f9f;
 }
+
+.popover-error {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
