@@ -9,9 +9,15 @@ import './Video-Form.css'
 function VideoForm() {
   const { auth } = useContext(AuthContext);
   const [videoId, setVideoId] = useState(undefined);
+  const [videoURL, setVideoURL] = useState('');
   const [videos, setVideos] = useState([]);
   const [videokey, setVideoKey] = useState({})
   const [selectedvideo, setSelectedVideo] = useState({});
+  const userId = auth.user.id
+  const urlRef = useRef();
+  const nameRef = useRef();
+  const siteRef = useRef();
+  const videoTypeRef = useRef();
   let { movieId } = useParams();
 
   function getAll(movieId) {
@@ -32,57 +38,125 @@ function VideoForm() {
   }
 
   const getYouTubeVideoID = (url) => {
+    if (!url || typeof url !== 'string') {
+      console.log("Invalid URL:", url);
+      setVideoKey(''); // Reset video key if the URL is invalid
+      return null;
+    }
+
     const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/)([\w-]+))/i;
     const match = url.match(regex);
-    console.log("URL:", url);  // Log the input URL
-    console.log("Match:", match);  // Log the match result
+    console.log("URL:", url);
+    console.log("Match:", match);
+
     if (match && match[1]) {
       setVideoKey(match[1]);
+      return match[1];
+    } else {
+      setVideoKey(''); // Reset video key if no match is found
+      return null;
     }
-    return match && match[1] ? match[1] : null;
   };
-  
+
+  const validateField = (fieldRef, fieldName) => {
+    if (!fieldRef.current.value.trim()) {
+      fieldRef.current.style.border = '2px solid red';
+      setTimeout(() => {
+        fieldRef.current.style.border = '1px solid #ccc';
+      }, 2000);
+      console.log(`${fieldName} cannot be empty.`)
+      return false;
+    }
+    return true;
+  }
+
+
   const handlesave = async () => {
 
-    /*const validateFields = () => {
-      const isUrlValid = validateField(urlRef, "URL");
-      const isDescriptionValid = validateField(descriptionRef, "Description");
+    const validateFields = () => {
+      const isUrlValid = validateField(urlRef, "YouTube Link");
 
-      return isUrlValid && isDescriptionValid;
-    };*/
+      if (isUrlValid) {
+        const videoKey = getYouTubeVideoID(urlRef.current.value);
+        if (!videoKey) {
+          urlRef.current.style.border = '2px solid red';
+          setTimeout(() => {
+            urlRef.current.style.border = '1px solid #ccc';
+          }, 2000);
+          console.log("Invalid YouTube link. Please enter a valid URL.");
+          alert("Invalid YouTube link. Please enter a valid URL.")
+          return false;
+        }
+      }
 
-    /*if (!validateFields()) {
+      const isNameValid = validateField(nameRef, "Title Name");
+      const isSiteValid = validateField(siteRef, "Site Type");
+      const isVideoTypeValid = validateField(videoTypeRef, "Video Type");
+
+      return isUrlValid && isNameValid && isSiteValid && isVideoTypeValid;
+    };
+
+
+    if (!validateFields()) {
       return; // This is for stop if any valid is null
-    } else {*/
+    } else {
       try {
         const dataphoto = {
-          userId: auth.user.userId,
+          userId: userId,
           movieId: movieId,
-          url: selectedvideo.url,
+          url: `https://www.youtube.com/embed/${videokey}`,
           videoKey: videokey,
           name: selectedvideo.name,
+          site: selectedvideo.site,
+          videoType: selectedvideo.videotype,
+          official: 0,
         }
         await axios({
           method: 'POST',
-          url: '/admin/photos',
+          url: '/admin/videos',
           data: dataphoto,
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
           }
         });
         alert('Added Success');
-        setSelectedVideo([])
         getAll(movieId);
+        setSelectedVideo([]);
+        setVideoURL('')
+        setVideoKey('')
+        getYouTubeVideoID(null);
       } catch (error) {
-        console.log("Error Saving Photo", error.response?.data || error.message);
+        console.log("Error Saving Video", error.response?.data || error.message);
+        alert(`Incorrect Link or Error: ${error.message}`)
       }
-    //}
-  }
+    }
+  };
 
   useEffect(() => {
     getAll(movieId)
   }, [movieId]);
-  
+
+  const handledelete = async (id) => {
+    const isConfirm = window.confirm("Are you sure you want to delete this photo?");
+
+    if (isConfirm) {
+      try {
+        const response = await axios({
+          method: 'delete',
+          url: `/videos/${id}`, // Assuming you are calling the endpoint correctly
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+        alert("Delete successful!");
+        console.log(response);
+        getAll(movieId); // Reload data after deletion
+      } catch (err) {
+        console.error("Error deleting video:", err.message);
+        alert("An error occurred while deleting the video.");
+      }
+    }
+  };
 
   return (
     <div className='video-box'>
@@ -95,7 +169,7 @@ function VideoForm() {
                   <button
                     type='button'
                     className='delete-button'
-                  //onClick={() => handledelete(image.id)}
+                    onClick={() => handledelete(items.id)}
                   >
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </button>
@@ -123,7 +197,7 @@ function VideoForm() {
           </div>
         ) : (
           <div className='no-videos'>
-            <h3>Photos not Found</h3>
+            <h3>Videos not Found</h3>
           </div>
         )}
       </div>
@@ -150,9 +224,15 @@ function VideoForm() {
                 Video Url:
               </label>
               <input
+                type='url'
                 className='video-url'
-                value={selectedvideo.url || ''}
-                onChange={(e) => getYouTubeVideoID(e.target.value)}
+                value={videoURL}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setVideoURL(value || '');
+                  getYouTubeVideoID(value);
+                }}
+                ref={urlRef}
               />
             </div>
             <div className='input-group'>
@@ -160,9 +240,38 @@ function VideoForm() {
                 Name Video:
               </label>
               <input
+                type='text'
                 className='video-name'
-              value={selectedvideo.name || ''}
-              onChange={(e) => setSelectedVideo({ ...selectedvideo, name: e.target.value })}
+                maxLength={100}
+                value={selectedvideo.name || ''}
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, name: e.target.value })}
+                ref={nameRef}
+              />
+            </div>
+            <div className='input-group'>
+              <label className='label-video'>
+                Site:
+              </label>
+              <input
+                type='text'
+                className='site-name'
+                value={selectedvideo.site || ''}
+                maxLength={20}
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, site: e.target.value })}
+                ref={siteRef}
+              />
+            </div>
+            <div className='input-group'>
+              <label className='label-video'>
+                Video Type:
+              </label>
+              <input
+                type='text'
+                className='video-type-name'
+                maxLength={20}
+                value={selectedvideo.videotype || ''}
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, videotype: e.target.value })}
+                ref={videoTypeRef}
               />
             </div>
           </div>
@@ -171,7 +280,7 @@ function VideoForm() {
               <>
                 <button className='edit-save-btn'
                   type='button'
-                //onClick={handlesave}
+                  onClick={handlesave}
                 >
                   Save
                 </button>

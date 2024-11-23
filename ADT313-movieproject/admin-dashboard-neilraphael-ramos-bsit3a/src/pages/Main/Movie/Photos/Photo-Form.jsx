@@ -90,16 +90,17 @@ function PhotoForm() {
     if (isConfirm) {
       axios({
         method: 'delete',
-        url: `/admin/photos/${id}`,
+        url: `/photos/${id}`,
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },
-      })
-        .catch(() => {
-          alert("Delete Success");
-          getAll(movieId);
-          console.log("Database Updated");
-        });
+      }).then(() => {
+        alert("Delete Success");
+        getAll(movieId);
+        console.log("Database Updated");
+      }).catch((err) => {
+        console.log("err");
+      });
     }
   };
 
@@ -111,7 +112,7 @@ function PhotoForm() {
   const photofetch = async (id) => {
     axios({
       method: 'get',
-      url: `/admin/photos/${id}`,
+      url: `/photos/${id}`,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${auth.accessToken}`,
@@ -119,11 +120,10 @@ function PhotoForm() {
     })
       .then((response) => {
         setSelectedPhoto(response.data);
+        setPhotoId(response.data.id)
       })
       .catch((error) => {
-        setSelectedPhoto(error.response.data);
-        console.table(selectedphoto)
-        setPhotoId(error.response.data.id)
+        console.log(error)
       });
   }
 
@@ -141,8 +141,7 @@ function PhotoForm() {
       const isConfirm = window.confirm("Are you sure you want to update the Photo?");
       if (isConfirm) {
         const dataphoto = {
-          id: id,
-          userId: selectedphoto.userId,
+          userId: auth.user.userId,
           movieId: selectedphoto.movieId,
           description: selectedphoto.description,
           url: selectedphoto.url,
@@ -152,7 +151,7 @@ function PhotoForm() {
         try {
           const response = await axios({
             method: 'patch',
-            url: `/admin/photos/${id}`,
+            url: `/photos/${id}`,
             data: dataphoto,
             headers: {
               Accept: 'application/json',
@@ -160,10 +159,11 @@ function PhotoForm() {
             },
           });
           console.log(response.data);
-        } catch (error) {
           alert('Updated Successfully')
           handleclear();
           getAll(movieId)
+        } catch (error) {
+          console.log(error)
         }
       }
     }

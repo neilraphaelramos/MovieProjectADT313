@@ -9,7 +9,6 @@ const Form = () => {
     const [query, setQuery] = useState('');
     const [searchedMovieList, setSearchedMovieList] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(undefined);
-    const [movie, setMovie] = useState(undefined);
     const [notfound, setNotFound] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -21,6 +20,9 @@ const Form = () => {
     const navigate = useNavigate();
     let { movieId } = useParams();
     const { auth } = useContext(AuthContext);
+    const { movie } = useContext(AuthContext);
+    const { setMovieInfo } = useContext(AuthContext);
+
 
     useEffect(() => {
         tabselector();
@@ -160,7 +162,7 @@ const Form = () => {
             const fetchMovie = async () => {
                 try {
                     const response = await axios.get(`/movies/${movieId}`);
-                    setMovie(response.data);
+                    setMovieInfo(response.data);
                     setSelectedMovie({
                         id: response.data.tmdbId,
                         tmdbId: response.data.id,

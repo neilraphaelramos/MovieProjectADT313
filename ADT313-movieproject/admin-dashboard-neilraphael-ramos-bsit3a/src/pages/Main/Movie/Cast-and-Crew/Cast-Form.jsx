@@ -111,18 +111,18 @@ function CastForm() {
   const castget = async (id) => {
     axios({
       method: 'get',
-      url: `/admin/casts/${id}`,
+      url: `/casts/${id}`,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${auth.accessToken}`,
       },
     })
       .then((response) => {
-        setCast(response.data);
+        setSelectedCast(response.data);
+        setCastId(response.data.id)
       })
       .catch((error) => {
-        setSelectedCast(error.response.data);
-        setCastId(error.response.data.id)
+        console.log(error)
       });
   }
 
@@ -174,19 +174,18 @@ function CastForm() {
         try {
           const response = await axios({
             method: 'patch',
-            url: `/admin/casts/${id}`,
+            url: `/casts/${id}`,
             data: datacast,
             headers: {
               Accept: 'application/json',
               Authorization: `Bearer ${auth.accessToken}`,
             },
           });
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error updating cast:", error.response?.data || error.message);
           alert('Updated Successfully');
           handleclear();
           getAll(movieId)
+        } catch (error) {
+          console.error("Error updating cast:", error.response?.data || error.message);
         }
       }
     }

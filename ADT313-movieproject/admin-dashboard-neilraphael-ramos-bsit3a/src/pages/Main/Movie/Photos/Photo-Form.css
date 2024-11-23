@@ -20,6 +20,7 @@
 }
 
 .Photo-View-Box {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,8 +29,11 @@
 }
 
 .no-photo {
-    text-align: center;
-    margin-top: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+    margin-left: 10px;
     font-size: 1.5rem;
     color: #9f9f9f;
 }

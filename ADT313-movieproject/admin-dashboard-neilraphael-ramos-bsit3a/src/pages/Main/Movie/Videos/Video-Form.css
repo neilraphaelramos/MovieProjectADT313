@@ -54,7 +54,7 @@
 }
 
 .no-videos {
-    text-align: center;
+    text-align: left;
     margin-top: 20px;
     font-size: 1.5rem;
     color: #9f9f9f;
@@ -65,7 +65,6 @@
     transition: 0.3s;
     width: 100%;
     margin: 10px;
-    height: 50%;
 }
 
 .card-video:hover { 
@@ -98,7 +97,9 @@
 }
 
 .video-url,
-.video-name {
+.video-name,
+.site-name,
+.video-type-name {
     flex: 2;
     padding: 3px;
     font-size: 14px;

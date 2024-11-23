@@ -1,17 +1,19 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../../../../utils/context/AuthContext';
 import axios from 'axios';
 import './Lists.css'; 
 
 const Lists = () => {
     const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
-    const [lists, setLists] = useState([]);
+    const { lists } = useContext(AuthContext);
+    const { setListDataMovie } = useContext(AuthContext);
 
     const getMovies = () => {
         // Get the movies from the API or database
         axios.get('/movies').then((response) => {
-            setLists(response.data);
+            setListDataMovie(response.data);
         });
     };
 
@@ -36,7 +38,7 @@ const Lists = () => {
                     const index = lists.findIndex((movie) => movie.id === id);
                     if (index !== undefined || index !== -1) {
                         tempLists.splice(index, 1);
-                        setLists(tempLists);
+                        setListDataMovie(tempLists);
                     }
 
                     // Alternatively, update list by requesting again from the API
