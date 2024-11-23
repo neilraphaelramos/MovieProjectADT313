@@ -19,7 +19,7 @@ class VideosController
 
     private function processResourceRequest(string $method, string $id): void
     {
-        $cast = $this->gateway->getAll($id);
+        $cast = $this->gateway->get($id);
         if (!$cast) {
             http_response_code(404);
             echo json_encode(["message" => "Video not found"]);

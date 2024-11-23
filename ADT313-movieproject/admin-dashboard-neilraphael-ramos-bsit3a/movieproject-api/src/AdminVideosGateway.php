@@ -48,10 +48,10 @@ class AdminVideosGateway
 
     public function get(string $id)
     {
-        $sql = "SELECT * FROM videos WHERE id = :id AND userId = :userId";
+        $sql = "SELECT * FROM videos WHERE id = :id";
         $res = $this->conn->prepare($sql);
         $res->bindValue(":id", $id, PDO::PARAM_INT);
-        $res->bindValue(":userId",$userId, PDO::PARAM_INT);
+        //$res->bindValue(":userId",1, PDO::PARAM_INT);
 
         $res->execute();
         $data = $res->fetch(PDO::FETCH_ASSOC);
