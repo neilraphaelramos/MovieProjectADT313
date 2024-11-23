@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from '../../utils/context/AuthContext';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,28 +6,27 @@ import { faSignOutAlt, faFilm, faTachometerAlt, faUserCircle } from '@fortawesom
 import './Main.css';
 
 function Main() {
-  const accessToken = localStorage.getItem('accessToken');
-
   //get user info
-  const userInformation = JSON.parse(localStorage.getItem('user'));
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const { clearAuthData } = useContext(AuthContext);
+
 
   const handleResetTab = () => {
     localStorage.setItem('tab', JSON.stringify('cast'));
   }
 
-  const handleLogout = () => {
-    clearAuthData()
+  const handleLogout = useCallback(() => {
+    clearAuthData();
     navigate('/');
-  };
+  }, [navigate, clearAuthData]);
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!auth.accessToken) {
       handleLogout();
     }
-  }, []);
+  }, [auth.accessToken, handleLogout]);
 
   return (
     <div className="Main">
@@ -36,8 +35,8 @@ function Main() {
           <div className="admin-info">
             <FontAwesomeIcon icon={faUserCircle} style={{ fontSize: '50px', color: 'white' }} />
             <span className="user-info">
-              <p className="role">{userInformation.role}</p>
-              <h1 className="name">{userInformation.firstName}</h1>
+              <p className="role">{auth.user.role}</p>
+              <h1 className="name">{auth.user.firstName}</h1>
             </span>
           </div>
           <hr></hr>
@@ -56,19 +55,12 @@ function Main() {
                 </center>
               </a>
             </li>
-            <li>
-              <a href="/main/user-lists" className="nav-link" title="Users">
-                <center>
-                  <FontAwesomeIcon icon={faUserCircle} style={{ fontSize: '24px', color: 'white' }} />
-                </center>
-              </a>
-            </li>
             <li className="logout" title="Logout">
-              <a onClick={handleLogout} className="nav-link">
+              <button onClick={handleLogout} className="nav-link" style={{ background: 'none', border: 'none' }}>
                 <center>
                   <FontAwesomeIcon icon={faSignOutAlt} style={{ fontSize: '24px', color: 'white' }} />
                 </center>
-              </a>
+              </button>
             </li>
           </ul>
         </div>
