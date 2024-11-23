@@ -1,25 +1,25 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from '../../../../utils/context/AuthContext';
 import axios from 'axios';
-import './Lists.css'; 
+import './Lists.css';
 
 const Lists = () => {
-    const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
     const { lists } = useContext(AuthContext);
     const { setListDataMovie } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext);
 
-    const getMovies = () => {
+    const getMovies = useCallback(() => {
         // Get the movies from the API or database
         axios.get('/movies').then((response) => {
             setListDataMovie(response.data);
         });
-    };
+    }, [setListDataMovie]);
 
     useEffect(() => {
         getMovies();
-    }, []);
+    }, [getMovies]);
 
     const handleDelete = (id) => {
         const isConfirm = window.confirm(
@@ -29,7 +29,7 @@ const Lists = () => {
             axios
                 .delete(`/movies/${id}`, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${auth.accessToken}`,
                     },
                 })
                 .then(() => {

@@ -20,7 +20,7 @@ const Form = () => {
     const navigate = useNavigate();
     let { movieId } = useParams();
     const { auth } = useContext(AuthContext);
-    const { movie } = useContext(AuthContext);
+    //const { movie } = useContext(AuthContext);
     const { setMovieInfo } = useContext(AuthContext);
 
 
@@ -179,9 +179,10 @@ const Form = () => {
                     console.error(err);
                 }
             };
+    
             fetchMovie();
         }
-    }, [movieId]);
+    }, [movieId, setMovieInfo, setSelectedMovie]);
 
     return (
         <div className="form-box">

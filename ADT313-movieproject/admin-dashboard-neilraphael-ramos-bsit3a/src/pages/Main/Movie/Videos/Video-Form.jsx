@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { AuthContext } from '../../../../utils/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit, faL } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import './Video-Form.css'
@@ -13,14 +13,13 @@ function VideoForm() {
   const [videos, setVideos] = useState([]);
   const [videokey, setVideoKey] = useState({})
   const [selectedvideo, setSelectedVideo] = useState({});
-  const userId = auth.user.id
   const urlRef = useRef();
   const nameRef = useRef();
   const siteRef = useRef();
   const videoTypeRef = useRef();
   let { movieId } = useParams();
 
-  function getAll(movieId) {
+  const getAll = useCallback((movieId) => {
     axios({
       method: 'get',
       url: `/movies/${movieId}`,
@@ -35,7 +34,7 @@ function VideoForm() {
       .catch((error) => {
         console.error("Error fetching Videos:", error.response.data);
       });
-  }
+  }, [auth.accessToken])
 
   const getYouTubeVideoID = (url) => {
     if (!url || typeof url !== 'string') {
@@ -70,7 +69,6 @@ function VideoForm() {
     return true;
   }
 
-
   const handlesave = async () => {
 
     const validateFields = () => {
@@ -102,7 +100,7 @@ function VideoForm() {
     } else {
       try {
         const dataphoto = {
-          userId: userId,
+          userId: auth.user.id,
           movieId: movieId,
           url: `https://www.youtube.com/embed/${videokey}`,
           videoKey: videokey,
@@ -133,8 +131,8 @@ function VideoForm() {
   };
 
   useEffect(() => {
-    getAll(movieId)
-  }, [movieId]);
+    getAll(movieId);
+  }, [movieId, getAll]);
 
   const handledelete = async (id) => {
     const isConfirm = window.confirm("Are you sure you want to delete this photo?");
@@ -188,6 +186,7 @@ function VideoForm() {
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  title='display-video-view'
                 ></iframe>
                 <div className='container-video'>
                   <p>{items.name}</p>
@@ -207,12 +206,13 @@ function VideoForm() {
             <div className='video-container-center'>
               <div className='video-frame-container'>
                 <iframe
+                title='display-video-save'
                   className='video-frame'
                   src={selectedvideo.url
                     ? selectedvideo.url
                     : `https://www.youtube.com/embed/${videokey}`
                   }
-                  frameborder="0"
+                  frameBorder="0"
                 >
                 </iframe>
               </div>

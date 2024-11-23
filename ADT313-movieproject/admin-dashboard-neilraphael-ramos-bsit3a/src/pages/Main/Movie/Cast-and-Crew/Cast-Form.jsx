@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback, useRef } from 'react';
 import { AuthContext } from '../../../../utils/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit, faL } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import './Cast-Form.css';
 import { useParams } from 'react-router-dom';
@@ -19,10 +19,10 @@ function CastForm() {
   const urlRef = useRef();
   let { movieId } = useParams();
 
-  function getAll(movieId) {
+  const getAll = useCallback((movie_id) => {
     axios({
       method: 'get',
-      url: `/movies/${movieId}`,
+      url: `/movies/${movie_id}`,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${auth.accessToken}`,
@@ -32,13 +32,13 @@ function CastForm() {
         setCast(response.data.casts);
       })
       .catch((error) => {
-        console.error("Error fetching casts:", error.response.data);
+        console.error("Error fetching Casts:", error.response.data);
       });
-  }
+  }, [auth.accessToken])
 
   useEffect(() => {
-    getAll(movieId)
-  }, [movieId]);
+    getAll(movieId);
+  }, [movieId, getAll]);
 
   const handleSearchPerson = useCallback(async (page = 1) => {
     setNotFound(true);
@@ -182,6 +182,7 @@ function CastForm() {
             },
           });
           alert('Updated Successfully');
+          console.log(response.message);
           handleclear();
           getAll(movieId)
         } catch (error) {
@@ -303,6 +304,7 @@ function CastForm() {
             <div className='image-container-center'>
               <div className='image-container'>
                 <img
+                  alt='image-cast'
                   src={selectedcast?.profile_path
                     ? `https://image.tmdb.org/t/p/original/${selectedcast.profile_path}`
                     : selectedcast?.url

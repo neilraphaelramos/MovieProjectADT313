@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useCallback, useRef } from 'rea
 import { AuthContext } from '../../../../utils/context/AuthContext'
 import './Photo-Form.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit, faL } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ function PhotoForm() {
   const [selectedphoto, setSelectedPhoto] = useState({});
   let { movieId } = useParams();
 
-  function getAll(movieId) {
+  const getAll = useCallback((movieId) => {
     axios({
       method: 'get',
       url: `/movies/${movieId}`,
@@ -30,11 +30,11 @@ function PhotoForm() {
       .catch((error) => {
         console.error("Error fetching Photos:", error.response.data);
       });
-  }
+  }, [auth.accessToken])
 
   useEffect(() => {
-    getAll(movieId)
-  }, [movieId]);
+    getAll(movieId);
+  }, [movieId, getAll]);
 
   const validateField = (fieldRef, fieldName) => {
     if (!fieldRef.current.value.trim()) {
@@ -211,6 +211,7 @@ function PhotoForm() {
             <div className='photo-container-center'>
               <div className='photo-image-container'>
                 <img
+                  alt='photo-movies'
                   src={selectedphoto.url
                     ? selectedphoto.url
                     : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'

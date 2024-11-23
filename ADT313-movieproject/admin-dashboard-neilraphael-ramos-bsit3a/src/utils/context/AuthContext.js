@@ -25,12 +25,10 @@ export const AuthProvider = ({ children }) => {
 
   const setMovieInfo = (movieInfo) => {
     setMovie(movieInfo);
-    console.log(movieInfo);
   };
 
   const setListDataMovie = (listData) => {
     setLists(listData);
-    console.log(listData);
   }
 
   const clearAuthData = () => {
