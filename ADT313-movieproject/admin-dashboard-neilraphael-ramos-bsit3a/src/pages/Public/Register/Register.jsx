@@ -29,7 +29,7 @@ function Register() {
 
   const handleShowPassword = useCallback(() => {
     setIsShowPassword((value) => !value);
-  }, [isShowPassword]);
+  }, []);
 
   const handleOnChange = (event, type) => {
     setDebounceState(false);
@@ -106,7 +106,7 @@ function Register() {
           </div>
         )}
         <div>
-          <h1 className="text-title"><strong>Welcome to Movie Web App!</strong></h1>
+          <h1 className="text-title"><strong>Welcome to MovieWebDB</strong></h1>
           <p className="text-description">Sign up to unlock the movies, reviews and discover a new content!</p>
           <hr></hr>
           <form className='box-form'>

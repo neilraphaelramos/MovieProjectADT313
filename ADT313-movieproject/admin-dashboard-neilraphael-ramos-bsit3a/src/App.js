@@ -12,7 +12,6 @@ import Form from './pages/Main/Movie/Form/Form';
 import CastForm from './pages/Main/Movie/Cast-and-Crew/Cast-Form';
 import PhotoForm from './pages/Main/Movie/Photos/Photo-Form';
 import VideoForm from './pages/Main/Movie/Videos/Video-Form';
-import UserLists from './pages/Main/User-Lists/UserLists';
 import { AuthProvider } from './utils/context/AuthContext';
 
 const router = createBrowserRouter([
@@ -39,10 +38,6 @@ const router = createBrowserRouter([
       {
         path: '/main/dashboard',
         element: <Dashboard />
-      },
-      {
-        path: '/main/user-lists',
-        element: <UserLists />
       },
       {
         path: '/main/movies',
@@ -80,7 +75,6 @@ const router = createBrowserRouter([
       //   path: '/main/dashboard',
       //   element: <Dashboard />,
       // },
-
     ],
   },
 ]);

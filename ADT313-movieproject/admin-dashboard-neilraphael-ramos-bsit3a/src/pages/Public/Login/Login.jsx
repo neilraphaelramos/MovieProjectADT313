@@ -21,11 +21,10 @@ function Login() {
 
   //alert-box
   const [alertMessage, setAlertMessage] = useState('');
-  const [isError, setIsError] = useState(false);
 
   const handleShowPassword = useCallback(() => {
     setIsShowPassword((value) => !value);
-  }, [isShowPassword]);
+  }, []);
 
   const handleOnChange = (event, type) => {
     setDebounceState(false);
@@ -64,7 +63,6 @@ function Login() {
           accessToken: res.data.access_token,
           user: res.data.user,
         });
-        setIsError(false);
         setAlertMessage(res.data.message);
         setTimeout(() => {
           navigate('/main/dashboard');
@@ -73,7 +71,6 @@ function Login() {
       })
       .catch((e) => {
         console.log(e);
-        setIsError(true);
         setAlertMessage(e.response?.data?.message || e.message);
         setTimeout(() => {
           setAlertMessage('');
@@ -101,7 +98,7 @@ function Login() {
               {alertMessage}
             </div>
           )}
-          <h1 className="text-title"><strong>Welcome to Movie Web App!</strong></h1>
+          <h1 className="text-title"><strong>Welcome to MovieWebDB</strong></h1>
           <p className="text-description">Unlock the magic of cinema. Explore, discover, and immerse yourself in a world of movies like never before.</p>
           <hr></hr>
           <form className='box-form'>
