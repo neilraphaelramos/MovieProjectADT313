@@ -94,7 +94,7 @@ class MovieGateway
 
     public function update(array $current, array $new): int
     {
-        $sql = "UPDATE movies SET tmdbId=:tmdbId, title=:title, overview=:overview, popularity=:popularity, releaseDate=:releaseDate, voteAverage=:voteAverage, backdropPath=:backdropPath, posterPath=:posterPath, isFeatured=:isFeatured WHERE id =:id AND userId = :userId";
+        $sql = "UPDATE movies SET tmdbId=:tmdbId, title=:title, overview=:overview, popularity=:popularity, releaseDate=:releaseDate, voteAverage=:voteAverage, backdropPath=:backdropPath, posterPath=:posterPath, isFeatured=:isFeatured, dateUpdated = NOW() WHERE id =:id AND userId = :userId";
         $res = $this->conn->prepare($sql);
 
         $res->bindValue(":userId",$current["userId"], PDO::PARAM_INT);

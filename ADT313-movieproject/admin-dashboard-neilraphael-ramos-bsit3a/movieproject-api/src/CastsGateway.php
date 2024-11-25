@@ -53,7 +53,7 @@ class CastsGateway
 
     public function update(array $current, array $new): int
     {
-        $sql = "UPDATE casts SET name=:name,url=:url,characterName=:characterName, dateUpdated=:dateUpdated WHERE id =:id AND userId = :userId";
+        $sql = "UPDATE casts SET name=:name,url=:url,characterName=:characterName, dateUpdated = NOW() WHERE id =:id AND userId = :userId";
         $res = $this->conn->prepare($sql);
         $dateUpdated = (new DateTime())->getTimeStamp();
         $res->bindValue(":userId",$current["userId"], PDO::PARAM_INT);

@@ -93,19 +93,19 @@ class VideosGateway
 
     public function update(array $current, array $new): int
     {
-        $sql = "UPDATE videos SET movieId=:movieId, userId=:userId, url=:url, name=:name, site=:site, videoKey=:videoKey, type=:type, official=:official WHERE id =:id AND userId = :userId";
+        $sql = "UPDATE videos SET url=:url, name=:name, site=:site, videoKey=:videoKey, videoType=:videoType, official=:official, dateUpdated = NOW() WHERE id =:id AND userId = :userId";
         $res = $this->conn->prepare($sql);
-        $dateUpdated = (new DateTime())->getTimeStamp();
+        //$dateUpdated = (new DateTime())->getTimeStamp();
         $res->bindValue(":userId",$current["userId"], PDO::PARAM_INT);
-        $res->bindValue(":movieId",$new["movieId"] ?? $current["movieId"], PDO::PARAM_INT);
+        //$res->bindValue(":movieId",$new["movieId"] ?? $current["movieId"], PDO::PARAM_INT);
         $res->bindValue(":url",$new["url"] ?? $current["url"], PDO::PARAM_STR);
         $res->bindValue(":name",$new["name"] ?? $current["name"], PDO::PARAM_STR);
         $res->bindValue(":site",$new["site"] ?? $current["site"], PDO::PARAM_STR);
-        $res->bindValue(":videoKey",$new["key"] ?? $current["videoKey"], PDO::PARAM_STR);
+        $res->bindValue(":videoKey",$new["videoKey"] ?? $current["videoKey"], PDO::PARAM_STR);
         $res->bindValue(":videoType",$new["videoType"] ?? $current["videoType"], PDO::PARAM_STR);
         $res->bindValue(":official",$new["official"] ?? $current["official"], PDO::PARAM_INT);
 
-        $res->bindValue(":dateUpdated",$dateUpdated, PDO::PARAM_STR);
+        //$res->bindValue(":dateUpdated",$dateUpdated, PDO::PARAM_STR);
         $res->bindValue(":id", $current["id"], PDO::PARAM_INT);
 
         $res->execute();
