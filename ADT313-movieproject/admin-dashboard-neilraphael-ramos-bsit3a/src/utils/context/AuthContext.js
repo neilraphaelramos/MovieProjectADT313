@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
@@ -24,12 +24,15 @@ export const AuthProvider = ({ children }) => {
   const [lists, setLists] = useState([]);
 
   const setMovieInfo = (movieInfo) => {
-    setMovie(movieInfo);
+    if (movieInfo && movieInfo.id !== movie?.id) { 
+      console.log(movieInfo);
+      setMovie(movieInfo);
+    }
   };
 
   const setListDataMovie = (listData) => {
     setLists(listData);
-  }
+  };
 
   const clearAuthData = () => {
     setAuth({
@@ -45,6 +48,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     localStorage.removeItem('tab');
   };
+
+  useEffect(() => {
+    if (!movie && auth.accessToken) {
+      console.log('Trigger fetching movie data because movie is null');
+    }
+  }, [auth, movie]);
 
   return (
     <AuthContext.Provider value={{ auth, setAuthData, clearAuthData, movie, setMovieInfo, lists, setListDataMovie }}>

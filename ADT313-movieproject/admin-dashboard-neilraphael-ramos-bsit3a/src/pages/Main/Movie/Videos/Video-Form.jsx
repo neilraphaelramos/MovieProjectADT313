@@ -39,7 +39,7 @@ function VideoForm() {
   const getYouTubeVideoID = (url) => {
     if (!url || typeof url !== 'string') {
       console.log("Invalid URL:", url);
-      setVideoKey(''); // Reset video key if the URL is invalid
+      setVideoKey('');
       return null;
     }
 
@@ -52,7 +52,7 @@ function VideoForm() {
       setVideoKey(match[1]);
       return match[1];
     } else {
-      setVideoKey(''); // Reset video key if no match is found
+      setVideoKey('');
       return null;
     }
   };
@@ -106,7 +106,7 @@ function VideoForm() {
           videoKey: videokey,
           name: selectedvideo.name,
           site: selectedvideo.site,
-          videoType: selectedvideo.videotype,
+          videoType: selectedvideo.videoType,
           official: 0,
         }
         await axios({
@@ -135,26 +135,118 @@ function VideoForm() {
   }, [movieId, getAll]);
 
   const handledelete = async (id) => {
-    const isConfirm = window.confirm("Are you sure you want to delete this photo?");
+    const isConfirm = window.confirm("Are you sure you want to delete this Video?");
 
     if (isConfirm) {
       try {
         const response = await axios({
           method: 'delete',
-          url: `/videos/${id}`, // Assuming you are calling the endpoint correctly
+          url: `/videos/${id}`,
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
           },
         });
         alert("Delete successful!");
         console.log(response);
-        getAll(movieId); // Reload data after deletion
+        getAll(movieId);
       } catch (err) {
         console.error("Error deleting video:", err.message);
         alert("An error occurred while deleting the video.");
       }
     }
   };
+
+  const videoget = async (id) => {
+    axios({
+      method: 'get',
+      url: `/videos/${id}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => {
+        setSelectedVideo(response.data);
+        setVideoId(response.data.id)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+  }
+
+  const handleclear = useCallback(() => {
+    setSelectedVideo([]);
+    setVideoId(undefined);
+    setVideoKey('');
+    setVideoURL('');
+    urlRef.current.value = '';
+  }, [setSelectedVideo, setVideoId, setVideoKey, setVideoURL]);
+
+  const videoUpdate = async (id) => {
+
+    const validateFields = () => {
+      const isUrlValid = validateField(urlRef, "YouTube Link");
+
+      if (isUrlValid) {
+        const videoKey = getYouTubeVideoID(urlRef.current.value);
+        if (!videoKey) {
+          urlRef.current.style.border = '2px solid red';
+          setTimeout(() => {
+            urlRef.current.style.border = '1px solid #ccc';
+          }, 2000);
+          console.log("Invalid YouTube link. Please enter a valid URL.");
+          alert("Invalid YouTube link. Please enter a valid URL.")
+          return false;
+        }
+      }
+
+      const isNameValid = validateField(nameRef, "Title Name");
+      const isSiteValid = validateField(siteRef, "Site Type");
+      const isVideoTypeValid = validateField(videoTypeRef, "Video Type");
+
+      return isUrlValid && isNameValid && isSiteValid && isVideoTypeValid;
+    };
+
+    if (!validateFields()) {
+      return; // This is for stop if any valid is null
+    } else {
+      const isConfirm = window.confirm("Are you sure you want to update the Video?");
+      if (isConfirm) {
+        const data = {
+          ...(videokey
+            ? {
+              url: `https://www.youtube.com/embed/${videokey}`,
+              videoKey: videokey,
+            }
+            : {
+              url: selectedvideo.url,
+              videoKey: selectedvideo.videoKey,
+            }),
+          name: selectedvideo.name,
+          site: selectedvideo.site,
+          videoType: selectedvideo.videoType,
+          official: selectedvideo.official,
+        };
+        try {
+          const response = await axios({
+            method: 'patch',
+            url: `/videos/${id}`,
+            data: data,
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${auth.accessToken}`,
+            },
+          });
+          alert('Updated Successfully');
+          console.log(response.message);
+          handleclear();
+          getAll(movieId)
+        } catch (error) {
+          console.error("Error updating cast:", error.response?.data || error.message);
+        }
+      }
+    }
+  }
 
   return (
     <div className='video-box'>
@@ -174,7 +266,7 @@ function VideoForm() {
                   <button
                     type='button'
                     className='edit-button'
-                  //onClick={() => photofetch(image.id)}
+                    onClick={() => videoget(items.id)}
                   >
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
@@ -206,11 +298,14 @@ function VideoForm() {
             <div className='video-container-center'>
               <div className='video-frame-container'>
                 <iframe
-                title='display-video-save'
+                  title='display-video-save'
                   className='video-frame'
-                  src={selectedvideo.url
-                    ? selectedvideo.url
-                    : `https://www.youtube.com/embed/${videokey}`
+                  src={
+                    selectedvideo.url
+                      ? selectedvideo.url
+                      : videokey
+                        ? `https://www.youtube.com/embed/${videokey}`
+                        : "https://www.youtube.com/embed/invalid"
                   }
                   frameBorder="0"
                 >
@@ -224,13 +319,18 @@ function VideoForm() {
                 Video Url:
               </label>
               <input
-                type='url'
-                className='video-url'
-                value={videoURL}
+                type="url"
+                className="video-url"
+                value={videoURL || selectedvideo.url}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setVideoURL(value || '');
-                  getYouTubeVideoID(value);
+                  setVideoURL(value);
+                  const videoKey = getYouTubeVideoID(value);
+                  if (videoKey) {
+                    setSelectedVideo((prev) => ({ ...prev, url: `https://www.youtube.com/embed/${videoKey}` }));
+                  } else {
+                    setSelectedVideo((prev) => ({ ...prev, url: '' }));
+                  }
                 }}
                 ref={urlRef}
               />
@@ -269,8 +369,8 @@ function VideoForm() {
                 type='text'
                 className='video-type-name'
                 maxLength={20}
-                value={selectedvideo.videotype || ''}
-                onChange={(e) => setSelectedVideo({ ...selectedvideo, videotype: e.target.value })}
+                value={selectedvideo.videoType || ''}
+                onChange={(e) => setSelectedVideo({ ...selectedvideo, videoType: e.target.value })}
                 ref={videoTypeRef}
               />
             </div>
@@ -289,7 +389,7 @@ function VideoForm() {
               <>
                 <button className='edit-save-btn'
                   type='button'
-                //onClick={() => photoUpdate(photoid)}
+                  onClick={() => videoUpdate(videoId)}
                 >
                   Update
                 </button>
@@ -298,7 +398,7 @@ function VideoForm() {
 
             <button className='clear-btn'
               type='button'
-            //onClick={handleclear}
+              onClick={handleclear}
             >
               Clear
             </button>
