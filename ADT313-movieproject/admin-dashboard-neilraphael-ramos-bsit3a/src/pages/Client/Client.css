@@ -157,7 +157,7 @@ footer {
     height: 130px;
 }
 
-.nav {
+.nav-user {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -166,7 +166,7 @@ footer {
     gap: 20px;
 }
 
-.nav .logout-user {
+.nav-user .logout-user {
     width: 181px;
     text-align: center;
     cursor: pointer;
@@ -174,7 +174,7 @@ footer {
     border-radius: 5px;
 }
 
-.nav .Movies-user {
+.nav-user .Movies-user {
     width: 181px;
     text-align: center;
     cursor: pointer;
@@ -182,15 +182,15 @@ footer {
     border-radius: 5px; 
 }
 
-.nav .Movies-user:hover {
+.nav-user .Movies-user:hover {
     box-shadow: 2px 4px 6px #31373c;
 }
 
-.nav .logout-user:hover {
+.nav-user .logout-user:hover {
     box-shadow: 2px 4px 6px #31373c;
 }
 
-.nav a {
+.nav-user a {
     display: block;
     width: 100%;
     padding: 10px 0;
@@ -200,7 +200,7 @@ footer {
     border-radius: 5px;
 }
 
-.nav a:hover {
+.nav-user a:hover {
     background-color: #343a40; 
     color: rgb(218, 218, 218);
 }

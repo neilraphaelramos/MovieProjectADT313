@@ -68,7 +68,7 @@ function Client() {
                         </div>
                     </div>
                     <hr></hr>
-                    <ul className='nav'>
+                    <ul className='nav-user'>
                         <div className="Movies-user">
                             <div style={{ fontSize: '24px', color: 'white' }}>
                                 <center>

@@ -73,7 +73,7 @@ function Login() {
         });
         setAlertMessage(res.data.message);
         setTimeout(() => {
-          if(res.data.user === 'admin') {
+          if(res.data.user.role === 'admin') {
             navigate('/main/dashboard');
           } else {
             navigate('/home')
