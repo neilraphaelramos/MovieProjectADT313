@@ -124,3 +124,7 @@ hr {
     align-items: center;
     height: 40px;
 }
+
+.text-center {
+    text-align: center;
+}

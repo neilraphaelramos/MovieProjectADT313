@@ -74,33 +74,45 @@ const Lists = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {lists.map((movie, index) => (
-                            <tr key={movie.id}>
-                                <td>{index + 1}</td>
-                                <td>{movie.id}</td>
-                                <td>{movie.title}</td>
-                                <td>{movie.popularity}</td>
-                                <td>{movie.releaseDate}</td>
-                                <td>
-                                    <button
-                                        type="button"
-                                        className="btn btn-warning btn-sm me-2"
-                                        onClick={() => {
-                                            navigate('/main/movies/form/' + movie.id + '/cast-and-crews');
-                                        }}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger btn-sm ms-2"
-                                        onClick={() => handleDelete(movie.id)}
-                                    >
-                                        Delete
-                                    </button>
+                        {lists.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" className="text-center">
+                                    <strong>Movie not found or Created.</strong>
                                 </td>
                             </tr>
-                        ))}
+                        ) : (
+                            lists.map((movie, index) => (
+                                <tr key={movie.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{movie.id}</td>
+                                    <td>{movie.title}</td>
+                                    <td>{movie.popularity}</td>
+                                    <td>{movie.releaseDate}</td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            className="btn btn-warning btn-sm me-2"
+                                            onClick={() => {
+                                                navigate(
+                                                    '/main/movies/form/' +
+                                                    movie.id +
+                                                    '/cast-and-crews'
+                                                );
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm ms-2"
+                                            onClick={() => handleDelete(movie.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

@@ -102,8 +102,16 @@
   display: flex;
   margin-top: 5px;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   min-width: 370px;
+}
+
+.seletor-feature {
+  display: flex;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  min-width: 385px;
 }
 
 textarea {

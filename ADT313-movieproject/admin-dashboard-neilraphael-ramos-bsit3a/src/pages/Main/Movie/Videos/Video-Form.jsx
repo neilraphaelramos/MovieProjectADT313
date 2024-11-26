@@ -58,19 +58,36 @@ function VideoForm() {
   };
 
   const validateField = (fieldRef, fieldName) => {
+    if (!fieldRef.current) {
+      console.error(`Field ${fieldName} ref is not assigned.`);
+      return false;
+    }
+
     if (!fieldRef.current.value.trim()) {
       fieldRef.current.style.border = '2px solid red';
       setTimeout(() => {
         fieldRef.current.style.border = '1px solid #ccc';
       }, 2000);
-      console.log(`${fieldName} cannot be empty.`)
+      console.log(`${fieldName} cannot be empty.`);
       return false;
     }
+
     return true;
-  }
+  };
+
 
   const handlesave = async () => {
-
+    const dataphoto = {
+      userId: auth.user.userId,
+      movieId: movieId,
+      url: `https://www.youtube.com/embed/${videokey}`,
+      videoKey: videokey,
+      name: selectedvideo.name,
+      site: selectedvideo.site,
+      videoType: selectedvideo.videoType,
+      official: selectedvideo.official,
+    }
+    console.table(dataphoto)
     const validateFields = () => {
       const isUrlValid = validateField(urlRef, "YouTube Link");
 
@@ -107,7 +124,7 @@ function VideoForm() {
           name: selectedvideo.name,
           site: selectedvideo.site,
           videoType: selectedvideo.videoType,
-          official: 0,
+          official: selectedvideo.official,
         }
         await axios({
           method: 'POST',
@@ -123,6 +140,7 @@ function VideoForm() {
         setVideoURL('')
         setVideoKey('')
         getYouTubeVideoID(null);
+        urlRef.current.value = '';
       } catch (error) {
         console.log("Error Saving Video", error.response?.data || error.message);
         alert(`Incorrect Link or Error: ${error.message}`)
@@ -373,6 +391,32 @@ function VideoForm() {
                 onChange={(e) => setSelectedVideo({ ...selectedvideo, videoType: e.target.value })}
                 ref={videoTypeRef}
               />
+            </div>
+            <div className='input-group'>
+              <label className='label-video'>
+                Official:
+              </label>
+              <select
+                className='seletor-official'
+                value={
+                  selectedvideo && selectedvideo.official !== undefined
+                    ? (selectedvideo.official ? 'Yes' : 'No')
+                    : ''
+                }
+                onChange={(e) =>
+                  setSelectedVideo({
+                    ...selectedvideo,
+                    official: e.target.value === 'Yes',
+                  })
+                }
+              >
+                <option value="" disabled>
+                  Select an option
+                </option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
             </div>
           </div>
           <div className='save-edit-back-btn'>

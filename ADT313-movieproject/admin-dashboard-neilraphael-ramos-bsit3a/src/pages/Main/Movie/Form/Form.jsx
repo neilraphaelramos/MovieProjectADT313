@@ -16,7 +16,7 @@ const Form = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null); // Error state for displaying error messages
     const tabset = JSON.parse(localStorage.getItem('tab'));
-    const [tab, setTab] = useState(tabset);      
+    const [tab, setTab] = useState(tabset);
     const navigate = useNavigate();
     let { movieId } = useParams();
     const { auth } = useContext(AuthContext);
@@ -116,7 +116,7 @@ const Form = () => {
                     voteAverage: selectedMovie.vote_average,
                     backdropPath: selectedMovie.backdrop_path,
                     posterPath: selectedMovie.poster_path,
-                    isFeatured: 0,
+                    isFeatured: selectedMovie.isFeatured,
                 };
                 await axios({
                     method: 'PATCH',
@@ -138,7 +138,7 @@ const Form = () => {
                     voteAverage: selectedMovie.vote_average,
                     backdropPath: `https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`,
                     posterPath: `https://image.tmdb.org/t/p/original/${selectedMovie.poster_path}`,
-                    isFeatured: 0,
+                    isFeatured: selectedMovie.isFeatured,
                 };
                 await axios({
                     method: 'post',
@@ -173,13 +173,14 @@ const Form = () => {
                         poster_path: response.data.posterPath,
                         release_date: response.data.releaseDate,
                         vote_average: response.data.voteAverage,
+                        isFeatured: response.data.isFeatured,
                     });
                 } catch (err) {
                     setError('Error fetching movie details. Please try again later.');
                     console.error(err);
                 }
             };
-    
+
             fetchMovie();
         }
     }, [movieId, setMovieInfo, setSelectedMovie]);
@@ -329,6 +330,20 @@ const Form = () => {
                             step={0.1}
                             disabled={movieId === undefined}
                         />
+                        <label>Is Featured</label>
+                        <select
+                            className='seletor-feature'
+                            value={selectedMovie ? (selectedMovie.isFeatured === true ? 'Yes' : 'No') : ''}
+                            onChange={(e) =>
+                                setSelectedMovie({ ...selectedMovie, isFeatured: e.target.value === 'Yes' ? true : false })
+                            }
+                        >
+                            <option value="" disabled>
+                                Select an option
+                            </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                         <div className='button-box'>
                             <button
                                 type="button"

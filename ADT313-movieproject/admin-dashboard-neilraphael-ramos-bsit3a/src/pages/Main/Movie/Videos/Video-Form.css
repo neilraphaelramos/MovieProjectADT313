@@ -99,7 +99,8 @@
 .video-url,
 .video-name,
 .site-name,
-.video-type-name {
+.video-type-name,
+.seletor-official {
     flex: 2;
     padding: 3px;
     font-size: 14px;
