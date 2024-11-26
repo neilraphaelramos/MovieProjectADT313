@@ -6,13 +6,16 @@ import Login from './pages/Public/Login/Login';
 import Dashboard from './pages/Main/Dashboard/Dashboard';
 import Main from './pages/Main/Main';
 import Register from './pages/Public/Register/Register';
-import Movie from './pages/Main/Movie/Movie';
 import Lists from './pages/Main/Movie/Lists/Lists';
 import Form from './pages/Main/Movie/Form/Form';
 import CastForm from './pages/Main/Movie/Cast-and-Crew/Cast-Form';
 import PhotoForm from './pages/Main/Movie/Photos/Photo-Form';
 import VideoForm from './pages/Main/Movie/Videos/Video-Form';
 import { AuthProvider } from './utils/context/AuthContext';
+import Home from './pages/Client/Home/Home';
+import Client from './pages/Client/Client';
+import Movies from './pages/Main/Movie/Movie';
+import Movie from './pages/Client/Movie/Movie';
 
 const router = createBrowserRouter([
   {
@@ -41,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/main/movies',
-        element: <Movie />,
+        element: <Movies />,
         children: [
           {
             path: '/main/movies',
@@ -76,6 +79,20 @@ const router = createBrowserRouter([
       //   element: <Dashboard />,
       // },
     ],
+  },
+  {
+    path: '/home',
+    element: <Client />,
+    children: [
+      {
+        path: '',
+        element: <Home />
+      },
+      {
+        path: 'movie/:movieId?',
+        element: <Movie />
+      }
+    ]
   },
 ]);
 

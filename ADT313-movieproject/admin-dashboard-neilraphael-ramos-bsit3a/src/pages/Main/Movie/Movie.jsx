@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-const Movie = () => {
+const Movies = () => {
   return (
     <>
       <h1>Movie</h1>
@@ -10,4 +10,4 @@ const Movie = () => {
   );
 };
 
-export default Movie;
+export default Movies;

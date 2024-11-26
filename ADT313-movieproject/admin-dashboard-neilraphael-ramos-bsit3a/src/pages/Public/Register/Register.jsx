@@ -60,13 +60,14 @@ function Register() {
         break;
     }
   };
+  
 
   const handleRegister = async () => {
     const data = { email, password, firstName, middleName, lastName, contactNo, role };
     setStatus('loading');
     await axios({
       method: 'post',
-      url: '/admin/register',
+      url: '/user/register',
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })

@@ -44,6 +44,14 @@ function Login() {
     }
   };
 
+  let apiEndpoint;
+
+  if (window.location.pathname.includes('/admin')) {
+    apiEndpoint = '/admin/login';
+  } else {
+    apiEndpoint = '/user/login';
+  }
+
   const handleLogin = async () => {
     const data = { email, password };
     setStatus('loading');
@@ -51,7 +59,7 @@ function Login() {
 
     await axios({
       method: 'post',
-      url: '/admin/login',
+      url: apiEndpoint,
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })
@@ -65,7 +73,11 @@ function Login() {
         });
         setAlertMessage(res.data.message);
         setTimeout(() => {
-          navigate('/main/dashboard');
+          if(res.data.user === 'admin') {
+            navigate('/main/dashboard');
+          } else {
+            navigate('/home')
+          }
           setStatus('idle');
         }, 3000);
       })
