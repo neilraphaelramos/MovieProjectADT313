@@ -43,7 +43,7 @@ function Client() {
         <>
             <main className="box">
                 <header>
-                    <h1 className="title-text">Welcome to MovieWebDB</h1>
+                    <h1 className="title-text" onClick={() => navigate('/home')}>Welcome to MovieWebDB</h1>
                     <a className="button" id="toggleButton">
                         <div className="button-container">
                             <div className="divnav"></div>
@@ -69,7 +69,7 @@ function Client() {
                     </div>
                     <hr></hr>
                     <ul className='nav-user'>
-                        <div className="Movies-user">
+                        <div className="Movies-user" onClick={() => navigate('/home')}>
                             <div style={{ fontSize: '24px', color: 'white' }}>
                                 <center>
                                     <FontAwesomeIcon icon={faFilm} style={{ fontSize: '24px', color: 'white' }} />

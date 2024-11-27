@@ -38,6 +38,7 @@ header {
 article {
     grid-area: main;
     padding: 20px;
+    position: relative;
 }
 
 aside {
@@ -106,6 +107,7 @@ footer {
     -moz-user-select: none; 
     -webkit-user-select: none; 
     -ms-user-select: none; 
+    cursor: pointer;
 }
 
 .text-rights {

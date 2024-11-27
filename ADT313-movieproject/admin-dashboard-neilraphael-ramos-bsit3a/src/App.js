@@ -85,11 +85,11 @@ const router = createBrowserRouter([
     element: <Client />,
     children: [
       {
-        path: '',
+        path: '/home',
         element: <Home />
       },
       {
-        path: 'movie/:movieId?',
+        path: '/home/movie/:movieId?',
         element: <Movie />
       }
     ]
