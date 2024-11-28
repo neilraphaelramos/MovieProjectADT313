@@ -89,6 +89,7 @@ body {
   width: 100%;
   height: fit-content;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .title-text-movie-lists {

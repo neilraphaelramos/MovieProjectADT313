@@ -74,6 +74,10 @@ function Home() {
                 <img className='img-postpath-auto'
                   src={featuredMovie.posterPath}
                   alt='image-movie'
+                  onClick={() => {
+                    navigate(`/home/movie/${featuredMovie.id}`);
+                    setMovie(featuredMovie);
+                  }}
                 />
               </div>
               <div className='Title-Description-Box'>
