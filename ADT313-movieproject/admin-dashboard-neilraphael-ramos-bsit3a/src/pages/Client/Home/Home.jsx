@@ -23,14 +23,18 @@ function Home() {
       .then((response) => {
         if (!isMounted) return;
         const movies = response.data;
-        setLists(movies);
-        if (movies.length > 0) {
-          const randomIndex = Math.floor(Math.random() * movies.length);
-          setFeaturedMovie(movies[randomIndex]);
+        const featuredMovies = movies.filter(
+          (movie) => movie.isFeatured === true || movie.isFeatured === "true"
+        );
+
+        if (featuredMovies.length > 0) {
+          const randomIndex = Math.floor(Math.random() * featuredMovies.length);
+          setFeaturedMovie(featuredMovies[randomIndex]);
         }
-        console.log('Movies fetched:', movies);
+        setLists(movies);
       })
       .catch((error) => console.error('Error fetching movies:', error));
+
     return () => {
       isMounted = false;
     };
@@ -44,9 +48,15 @@ function Home() {
     if (lists.length === 0) return;
 
     const intervalId = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * lists.length);
-      setFeaturedMovie(lists[randomIndex]);
-      console.log('Updated featured movie:', lists[randomIndex]);
+      const featuredMovies = lists.filter(
+        (movie) => movie.isFeatured === true || movie.isFeatured === "true"
+      );
+
+      if (featuredMovies.length > 0) {
+        const randomIndex = Math.floor(Math.random() * featuredMovies.length);
+        setFeaturedMovie(featuredMovies[randomIndex]);
+        console.log('Updated featured movie:', featuredMovies[randomIndex]);
+      }
     }, 5000);
 
     return () => clearInterval(intervalId);
@@ -59,10 +69,12 @@ function Home() {
           <div
             className='featured-backdrop'
             style={{
-              background: `url(${featuredMovie.backdropPath !== 'https://image.tmdb.org/t/p/original/undefined'
+              backgroundImage: `url(${featuredMovie.backdropPath !== 'https://image.tmdb.org/t/p/original/undefined'
                 ? featuredMovie.backdropPath
                 : featuredMovie.posterPath
-                }) no-repeat center top`,
+                })`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center top',
               backgroundSize: 'cover',
             }}
           >
@@ -99,21 +111,19 @@ function Home() {
         <h1 className='title-text-movie-lists'>List of Movies</h1>
         <div className='list-container'>
           {lists.map((movie) => (
-            <>
-              <MovieCards
-                movie={movie}
-                onClick={() => {
-                  navigate(`/home/movie/${movie.id}`);
-                  setMovie(movie);
-                }}
-              />
-            </>
+            <MovieCards
+              key={movie.id}
+              movie={movie}
+              onClick={() => {
+                navigate(`/home/movie/${movie.id}`);
+                setMovie(movie);
+              }}
+            />
           ))}
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
