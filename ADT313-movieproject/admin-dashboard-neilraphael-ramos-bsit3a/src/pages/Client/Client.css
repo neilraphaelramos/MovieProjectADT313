@@ -56,7 +56,7 @@ footer {
     transition: transform 0.5s ease-in-out;
 }
 
-.link-color{
+.link-color {
     color: white;
 }
 
@@ -104,9 +104,9 @@ footer {
     color: white;
     font-size: 24px;
     user-select: none;
-    -moz-user-select: none; 
-    -webkit-user-select: none; 
-    -ms-user-select: none; 
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
     cursor: pointer;
 }
 
@@ -118,9 +118,9 @@ footer {
     left: 0;
     text-align: center;
     user-select: none;
-    -moz-user-select: none; 
-    -webkit-user-select: none; 
-    -ms-user-select: none; 
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .size-font {
@@ -131,6 +131,12 @@ footer {
     .size-font {
         font-size: 9pt;
     }
+    .name-user {
+        font-size: 15pt;
+    }
+    .role-user {
+        font-size: 10pt;
+    }
 }
 
 .User-Info {
@@ -138,6 +144,11 @@ footer {
     align-items: center;
     justify-content: center;
     position: absolute;
+}
+
+.photo-user-img {
+    font-size: 90px;
+    color: white;
 }
 
 .user-info-data {
@@ -164,7 +175,7 @@ footer {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 20px;
 }
 
@@ -172,7 +183,7 @@ footer {
     width: 181px;
     text-align: center;
     cursor: pointer;
-    background-color: #45525f; 
+    background-color: #45525f;
     border-radius: 5px;
 }
 
@@ -181,7 +192,7 @@ footer {
     text-align: center;
     cursor: pointer;
     background-color: #45525f;
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 
 .nav-user .Movies-user:hover {
@@ -203,13 +214,10 @@ footer {
 }
 
 .nav-user a:hover {
-    background-color: #343a40; 
+    background-color: #343a40;
     color: rgb(218, 218, 218);
 }
 
 .spacing-text {
     margin-left: 3px;
 }
-
-
-

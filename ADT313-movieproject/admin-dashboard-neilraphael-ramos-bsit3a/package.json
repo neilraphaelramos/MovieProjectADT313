@@ -29,7 +29,7 @@
       "react-app/jest"
     ]
   },
-  "proxy": "http://localhost/movieproject-api",
+  "proxy": "http://localhost:8080/movieproject-api",
   "browserslist": {
     "production": [
       ">0.2%",
