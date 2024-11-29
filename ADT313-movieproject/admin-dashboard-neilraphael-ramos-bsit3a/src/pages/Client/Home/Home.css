@@ -125,41 +125,40 @@ body {
     height: 78vh;
   }
 
-  /* Featured Movie section on small screens */
   .featured-list-container {
     flex-direction: column;
-    margin-bottom: 2rem; /* Adjust for smaller screens */
-    height: auto; /* Adjust height to fit content */
+    margin-bottom: 2rem;
+    height: auto;
   }
 
   .featured-backdrop {
-    height: 550%; /* Reduce the height for mobile devices */
+    height: 550%;
     background-size: cover;
     background-position: center;
   }
 
   .Movies-Title-Description {
-    padding: 20px; /* Reduce padding */
-    flex-direction: column; /* Stack the content vertically */
+    padding: 20px; 
+    flex-direction: column;
   }
 
   .PostPath-Img {
-    width: 50%; /* Increase image width to make it fit better */
-    margin-bottom: 1rem; /* Space out the image from text */
+    width: 50%;
+    margin-bottom: 1rem; 
   }
 
   .Title-Description-Box {
-    width: 100%; /* Make description box fit the screen */
+    width: 100%; 
     margin-left: 0;
   }
 
   .img-postpath-auto {
-    width: 100%; /* Ensure the image fills available width */
+    width: 100%;
     height: auto;
   }
 
   .title-movies-h1-2 {
-    font-size: 1.5rem; /* Adjust font size for smaller screens */
+    font-size: 1.5rem;
     padding: 10px;
   }
 
