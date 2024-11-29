@@ -144,9 +144,9 @@ function Login() {
                 id="showPassword"
                 onClick={handleShowPassword}
               />
-              <label htmlFor="showPassword">
+              <div className='showpassword-login' htmlFor="showPassword">
                 {isShowPassword ? 'Hide' : 'Show'} Password
-              </label>
+              </div>
             </div>
             <div className='button-box-login'>
               <button
@@ -174,7 +174,6 @@ function Login() {
                 <a href="/register">Don't have an account? Register</a>
               </div>
             </div>
-            
           </form>
         </div>
       </div>

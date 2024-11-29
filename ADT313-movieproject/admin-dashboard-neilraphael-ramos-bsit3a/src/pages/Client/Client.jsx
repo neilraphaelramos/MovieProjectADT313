@@ -14,8 +14,9 @@ function Client() {
         const footer = document.querySelector('footer');
         const sidebar = document.querySelector('.sidebar');
         const button = document.querySelector('.button');
-        const button2 = document.querySelector('.close-sidebar')
-        const coverSidebar = document.querySelector('.cover-sidebar')
+        const button2 = document.querySelector('.close-sidebar');
+        const button3 = document.querySelector('.Movies-user');
+        const coverSidebar = document.querySelector('.cover-sidebar');
 
         header.classList.add('header-visible');
         footer.classList.add('footer-visible');
@@ -32,9 +33,11 @@ function Client() {
 
         button?.addEventListener('click', toggleSidebar);
         button2?.addEventListener('click', toggleSidebar);
+        button3?.addEventListener('click', toggleSidebar);
         return () => {
             button?.removeEventListener('click', toggleSidebar);
             button2?.removeEventListener('click', toggleSidebar);
+            button3?.removeEventListener('click', toggleSidebar);
         };
     }, []);
 
@@ -90,7 +93,7 @@ function Client() {
                     </div>
                     <hr className='space-from-name-nav'></hr>
                     <ul className='nav-user'>
-                        <div className="Movies-user" onClick={() => navigate('/home')}>
+                        <div className="Movies-user" onClick={() => navigate('/home')} id="toggleButton">
                             <div style={{ fontSize: '24px', color: 'white' }}>
                                 <center>
                                     <FontAwesomeIcon icon={faFilm} style={{ fontSize: '24px', color: 'white' }} />

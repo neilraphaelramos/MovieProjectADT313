@@ -11,7 +11,6 @@ function Register() {
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
   const [contactNo, setContactNo] = useState('');
-  const [role, setRole] = useState('');
   const [isFieldsDirty, setIsFieldsDirty] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -20,7 +19,7 @@ function Register() {
   const lastNameRef = useRef();
   const contactNoRef = useRef();
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const userInputDebounce = useDebounce({ email, password, firstName, middleName, lastName, contactNo, role }, 2000);
+  const userInputDebounce = useDebounce({ email, password, firstName, middleName, lastName, contactNo }, 2000);
   const [debounceState, setDebounceState] = useState(false);
   const [status, setStatus] = useState('idle');
   const [alertMessage, setAlertMessage] = useState('');
@@ -53,9 +52,6 @@ function Register() {
       case 'contactNo':
         setContactNo(event.target.value);
         break;
-      case 'role':
-        setRole(event.target.value);
-        break;
       default:
         break;
     }
@@ -63,7 +59,7 @@ function Register() {
   
 
   const handleRegister = async () => {
-    const data = { email, password, firstName, middleName, lastName, contactNo, role };
+    const data = { email, password, firstName, middleName, lastName, contactNo };
     setStatus('loading');
     await axios({
       method: 'post',
@@ -189,16 +185,16 @@ function Register() {
               <small className="text-danger">This field is required</small>
             )}
 
-            <div className="form-check mt-2">
+            <div className="form-check">
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="showPassword"
                 onClick={handleShowPassword}
               />
-              <label className="form-check-label" htmlFor="showPassword">
+              <div className="form-check-label" htmlFor="showPassword">
                 {isShowPassword ? 'Hide' : 'Show'} Password
-              </label>
+              </div>
             </div>
 
             <div className="button-box-register">

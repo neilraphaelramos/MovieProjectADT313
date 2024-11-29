@@ -65,7 +65,7 @@
     text-align: center;
 }
 
-.Register-Form .form-check label {
+.Register-Form .form-check .form-check-label {
     font-size: 0.85rem;
     color: #666666;
 }
@@ -132,4 +132,48 @@
     border-radius: 10px;
     border: #4dff74 solid 1px;
     color: #ffffff;
+}
+
+@media (max-width: 500px) {
+    .Register-Form {
+        width: 300px;
+        height: auto;
+    }
+
+    .Register-Form h1.text-title {
+        font-size: 1.3rem;
+    }
+    
+    .Register-Form p.text-description {
+        font-size: 0.8rem;
+        color: #3d2424;
+        margin-bottom: 20px;
+    }
+    
+    .Register-Form .box-form label {
+        font-size: 1.0rem;
+        margin-top: -8px;
+    }
+    
+    .Register-Form .box-form input[type="text"],
+    .Register-Form .box-form input[type="email"],
+    .Register-Form .box-form input[type="password"] {
+        width: calc(100% - 10px);
+        padding: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .Register-Form .form-check label {
+        font-size: 0.75rem;
+        color: #666666;
+    }
+    
+    .Register-Form .text-center a:hover {
+        color: #6a11cb;
+    }
+
+    .text-danger {
+        margin-top: -10px;
+        margin-bottom: 5px;
+    }
 }

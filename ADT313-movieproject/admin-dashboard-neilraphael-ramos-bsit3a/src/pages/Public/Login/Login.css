@@ -64,7 +64,7 @@
     text-align: center;
 }
 
-.Login-Form .form-check label {
+.Login-Form .form-check .showpassword-login {
     font-size: 0.85rem;
     color: #666666;
 }
@@ -119,4 +119,46 @@
     border-radius: 10px;
     border: #ff4d4f solid 1px;
     color: #ffffff;
+}
+
+@media (max-width: 500px) {
+    .Login-Form {
+        width: 300px;
+        height: auto;
+    }
+
+    .Login-Form h1.text-title {
+        font-size: 1.3rem;
+    }
+
+    .Login-Form p.text-description {
+        font-size: 0.8rem;
+        color: #3d2424;
+        margin-bottom: 20px;
+    }
+
+    .Login-Form .box-form label {
+        font-size: 1.0rem;
+        margin-top: -8px;
+    }
+
+    .Login-Form .box-form input[type="text"],
+    .Login-Form .box-form input[type="password"] {
+        width: calc(100% - 18px);
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .Login-Form .form-check label {
+        font-size: 0.75rem;
+        color: #666666;
+    }
+
+    .Login-Form .text-center a:hover {
+        color: #6a11cb;
+    }
+
+    .text-danger {
+        margin-top: -10px;
+    }
 }
