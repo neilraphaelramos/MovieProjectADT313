@@ -47,7 +47,7 @@ function Client() {
         <>
             <main className="box">
                 <header>
-                    <h1 className="title-text" onClick={() => navigate('/home')}>Welcome to MovieWebDB</h1>
+                    <h1 className="title-text" onClick={() => navigate('/home')}>MovieWebDB</h1>
                     <button className="button" id="toggleButton">
                         <div className="button-container">
                             <div className="divnav"></div>

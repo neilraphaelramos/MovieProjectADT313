@@ -51,11 +51,9 @@ function Home() {
       const featuredMovies = lists.filter(
         (movie) => movie.isFeatured === true || movie.isFeatured === "true"
       );
-
       if (featuredMovies.length > 0) {
         const randomIndex = Math.floor(Math.random() * featuredMovies.length);
         setFeaturedMovie(featuredMovies[randomIndex]);
-        console.log('Updated featured movie:', featuredMovies[randomIndex]);
       }
     }, 5000);
 
@@ -70,8 +68,8 @@ function Home() {
             className='featured-backdrop'
             style={{
               backgroundImage: `url(${featuredMovie.backdropPath !== 'https://image.tmdb.org/t/p/original/undefined'
-                  ? featuredMovie.backdropPath
-                  : featuredMovie.posterPath})`,
+                ? featuredMovie.backdropPath
+                : featuredMovie.posterPath})`,
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center top',
               backgroundSize: 'cover',

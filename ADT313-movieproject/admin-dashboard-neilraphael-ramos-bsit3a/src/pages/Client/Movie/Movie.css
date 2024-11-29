@@ -21,6 +21,10 @@
    border-radius: 10px;
 }
 
+.View-Movie-Poster:hover {
+   box-shadow: 0px 0px 10px 5px #627f98;
+}
+
 .Movie-Tab-Info {
    display: flex;
    justify-content: center;
@@ -51,4 +55,88 @@
 
 .overview-h3 {
    font-weight: 300;
+}
+
+.Slide-Viewer {
+   display: flex;
+   gap: 10px;
+   padding: 10px;
+   overflow: auto;
+   margin-top: -20px;
+}
+
+.Slide-Viewer::-webkit-scrollbar {
+   height: 8px;
+   width: 8px;
+}
+
+.Slide-Viewer::-webkit-scrollbar-track {
+   background-color: #2e3a46;
+   border-radius: 10px;
+}
+
+.Slide-Viewer::-webkit-scrollbar-thumb {
+   background-color: #61617c;
+   border-radius: 10px;
+}
+
+.Slide-Viewer::-webkit-scrollbar-thumb:hover {
+   background-color: #46466e;
+}
+
+.Tab-Viewer-h1 {
+   padding: 10px 0px 0px 20px;
+   color: white;
+}
+
+.Slider-Color {
+   background-color: #29293f;
+}
+
+.not-found-message {
+   color: #aaa;
+   text-align: center;
+   font-style: italic;
+   padding: 10px;
+   margin: 10px 0;
+ }
+
+@media (max-width: 500px) {
+   .Movie-Tab-Info {
+      display: block;
+      height: 600px;
+      text-align: center;
+   }
+
+   .image-backdropPath {
+      margin: 0 auto;
+      width: 80%;
+      height: auto;
+   }
+
+   .info-movie-flex {
+      font-size: 10pt;
+      width: 80%; 
+      color: white;
+      margin: 20px auto;
+      text-align: center;
+      z-index: 1;
+      position: relative;
+   }
+
+   .banner {
+      width: 80%;
+      margin: 10px auto;
+      z-index: 1;
+      position: relative;
+   }
+
+   .Tab-Viewer-h1 {
+      font-size: 18pt;
+      padding: 10px 0px 5px 20px;
+   }
+
+   .View-Movie-Poster {
+      width: 70%;
+   }
 }

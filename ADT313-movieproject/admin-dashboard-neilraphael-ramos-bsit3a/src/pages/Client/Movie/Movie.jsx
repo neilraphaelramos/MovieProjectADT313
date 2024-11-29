@@ -1,29 +1,44 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from '../../../utils/context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './Movie.css'
+import CastCards from '../../../components/castCards/CastCards';
+import VideoCards from '../../../components/videoCards/VideoCards';
+import PhotoCards from '../../../components/photoCards/PhotoCards';
 
 function Movie() {
-  const { movie, setMovie } = useContext(AuthContext);
+  const { auth, movie, setMovie } = useContext(AuthContext);
+  const listCast = movie?.casts || [];
+  const listVideo = movie?.videos || [];
+  const listPhoto = movie?.photos || [];
 
   const { movieId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchMovie = useCallback(() => {
     if (movieId !== undefined) {
-      axios
-        .get(`/movies/${movieId}`)
+      axios({
+        method: "get",
+      url: `/movies/${movieId}`,
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      }
+      })
         .then((response) => {
           setMovie(response.data);
         })
         .catch((e) => {
           console.log(e);
-          navigate('/');
+          navigate('/home');
         });
     }
+  }, [movieId, auth.accessToken, navigate, setMovie]);
+
+  useEffect(() => {
+    fetchMovie();
     return () => { };
-  }, [movieId]);
+  }, [fetchMovie]);
   return (
     <div className='container-movie-card'>
       {movie && (
@@ -43,6 +58,7 @@ function Movie() {
               <img
                 className='View-Movie-Poster'
                 src={movie.posterPath}
+                alt='poster movie'
               />
             </div>
             <div className='info-movie-flex'>
@@ -52,24 +68,66 @@ function Movie() {
             </div>
           </div>
 
-          {movie.casts && movie.casts.length && (
-            <div>
-              <h1>Cast & Crew</h1>
-              {JSON.stringify(movie.casts)}
+          {listCast && listCast.length ? (
+            <>
+              <div className='Slider-Color'>
+                <h1 className='Tab-Viewer-h1'>Cast & Crew</h1>
+                <div className='Slide-Viewer'>
+                  {listCast.map((casts) => (
+                    <CastCards
+                      key={casts.id}
+                      cast={casts}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="Slider-Color">
+              <h1 className="Tab-Viewer-h1">Cast & Crew</h1>
+              <p className="not-found-message">No cast founded or created.</p>
             </div>
           )}
 
-          {movie.videos && movie.videos.length && (
-            <div>
-              <h1>Videos</h1>
-              {JSON.stringify(movie.videos)}
+          {listVideo && listVideo.length ? (
+            <>
+              <div className='Slider-Color'>
+                <h1 className='Tab-Viewer-h1'>Videos</h1>
+                <div className='Slide-Viewer'>
+                  {listVideo.map((video) => (
+                    <VideoCards
+                      key={video.id}
+                      video={video}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="Slider-Color">
+              <h1 className="Tab-Viewer-h1">Videos</h1>
+              <p className="not-found-message">No videos founded or created.</p>
             </div>
           )}
 
-          {movie.photos && movie.photos.length && (
-            <div>
-              <h1>Photos</h1>
-              {JSON.stringify(movie.photos)}
+          {listPhoto && listPhoto.length ? (
+            <>
+              <div className='Slider-Color'>
+                <h1 className='Tab-Viewer-h1'>Photos</h1>
+                <div className='Slide-Viewer'>
+                  {listPhoto.map((photo) => (
+                    <PhotoCards
+                      key={photo.id}
+                      photo={photo}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="Slider-Color">
+              <h1 className="Tab-Viewer-h1">Photos</h1>
+              <p className="not-found-message">No photos founded or created.</p>
             </div>
           )}
         </>
