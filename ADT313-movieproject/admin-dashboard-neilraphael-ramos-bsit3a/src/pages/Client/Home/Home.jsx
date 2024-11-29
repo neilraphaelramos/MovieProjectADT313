@@ -70,9 +70,8 @@ function Home() {
             className='featured-backdrop'
             style={{
               backgroundImage: `url(${featuredMovie.backdropPath !== 'https://image.tmdb.org/t/p/original/undefined'
-                ? featuredMovie.backdropPath
-                : featuredMovie.posterPath
-                })`,
+                  ? featuredMovie.backdropPath
+                  : featuredMovie.posterPath})`,
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center top',
               backgroundSize: 'cover',

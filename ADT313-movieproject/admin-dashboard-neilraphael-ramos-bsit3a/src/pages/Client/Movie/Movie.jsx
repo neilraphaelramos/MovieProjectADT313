@@ -28,12 +28,28 @@ function Movie() {
     <div className='container-movie-card'>
       {movie && (
         <>
-          <div>
+          <div className='Movie-Tab-Info'
+            style={{
+              backgroundImage: `url(${movie.backdropPath !== 'https://image.tmdb.org/t/p/original/undefined'
+                ? movie.backdropPath
+                : movie.posterPath
+                })`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center top',
+              backgroundSize: 'cover',
+            }}>
+            <div className='background-overlay'></div>
             <div className='banner'>
-              <h1>{movie.title}</h1>
+              <img
+                className='View-Movie-Poster'
+                src={movie.posterPath}
+              />
             </div>
-            <h3>{movie.overview}</h3>
-            {JSON.stringify(movie)}
+            <div className='info-movie-flex'>
+              <h1>{movie.title}</h1>
+              <hr></hr>
+              <h3 className='overview-h3'>{movie.overview}</h3>
+            </div>
           </div>
 
           {movie.casts && movie.casts.length && (
