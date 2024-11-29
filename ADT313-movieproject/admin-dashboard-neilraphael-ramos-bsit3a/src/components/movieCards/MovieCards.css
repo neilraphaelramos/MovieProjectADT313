@@ -15,11 +15,12 @@
 
 @media (max-width: 500px) {
   .card-movie img {
-    max-width: 138px;
+    max-width: 118px;
   }
 
   .card-movie {
-    max-width: 138px;
+    max-width: 118px;
+    font-size: 8pt;
   }
 }
 

@@ -105,7 +105,9 @@ function Home() {
           </div>
         </div>
       ) : (
-        <div className='featured-list-container-loader'></div>
+        <div className='featured-list-container-loader'>
+          Loading featured movie...
+        </div>
       )}
       <div className='movies-list'>
         <h1 className='title-text-movie-lists'>List of Movies</h1>

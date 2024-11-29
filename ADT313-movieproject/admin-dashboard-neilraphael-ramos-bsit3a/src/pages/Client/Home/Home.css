@@ -34,6 +34,20 @@ body {
   aspect-ratio: 11 / 4;
   border-radius: 10px;
   justify-content: center;
+  flex-direction: column;
+}
+
+.featured-list-container-loader {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 10px;
 }
 
 .featured-backdrop {
@@ -43,6 +57,9 @@ body {
   color: white;
   border-radius: 10px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .featured-movie-title {
@@ -66,6 +83,7 @@ body {
 
 .Movies-Title-Description {
   justify-content: center;
+  align-items: center;
   height: 100%;
   padding: 70px;
   display: flex;
@@ -85,11 +103,15 @@ body {
   width: 20%;
 }
 
-.img-postpath-auto{
+.img-postpath-auto {
   width: 100%;
   height: fit-content;
   border-radius: 20px;
   cursor: pointer;
+}
+
+.img-postpath-auto:hover {
+  box-shadow: 2px 4px 6px #627f98;
 }
 
 .title-text-movie-lists {
@@ -102,7 +124,50 @@ body {
   .main-container {
     height: 78vh;
   }
-  .featured-movie-title {
-    font-size: 12pt;
+
+  /* Featured Movie section on small screens */
+  .featured-list-container {
+    flex-direction: column;
+    margin-bottom: 2rem; /* Adjust for smaller screens */
+    height: auto; /* Adjust height to fit content */
+  }
+
+  .featured-backdrop {
+    height: 550%; /* Reduce the height for mobile devices */
+    background-size: cover;
+    background-position: center;
+  }
+
+  .Movies-Title-Description {
+    padding: 20px; /* Reduce padding */
+    flex-direction: column; /* Stack the content vertically */
+  }
+
+  .PostPath-Img {
+    width: 50%; /* Increase image width to make it fit better */
+    margin-bottom: 1rem; /* Space out the image from text */
+  }
+
+  .Title-Description-Box {
+    width: 100%; /* Make description box fit the screen */
+    margin-left: 0;
+  }
+
+  .img-postpath-auto {
+    width: 100%; /* Ensure the image fills available width */
+    height: auto;
+  }
+
+  .title-movies-h1-2 {
+    font-size: 1.5rem; /* Adjust font size for smaller screens */
+    padding: 10px;
+  }
+
+  .title-text-movie-lists {
+    font-size: 20pt;
+  }
+
+  .movies-list {
+    margin-top: 0px;
   }
 }
