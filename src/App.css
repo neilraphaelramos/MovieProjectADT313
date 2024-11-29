@@ -1,0 +1,13 @@
+.color-page {
+    /*background: linear-gradient(135deg, #acaaad, #97b4e7);*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(../src/utils/images/rows-red-seats-theater.jpg);
+    background-size: cover;
+    object-fit: cover;
+    background-position: center;
+    z-index: -1;
+}
