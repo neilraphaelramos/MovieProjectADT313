@@ -120,7 +120,7 @@ body {
   color: white;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 990px) {
   .main-container {
     height: 78vh;
   }

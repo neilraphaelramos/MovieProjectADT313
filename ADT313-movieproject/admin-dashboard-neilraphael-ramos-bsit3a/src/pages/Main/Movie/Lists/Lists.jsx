@@ -23,7 +23,7 @@ const Lists = () => {
 
     const handleDelete = (id) => {
         const isConfirm = window.confirm(
-            'Are you sure that you want to delete this data?'
+            'Are you sure that you want to delete this Movie including the casts, photos and videos on it?'
         );
         if (isConfirm) {
             axios
@@ -43,6 +43,8 @@ const Lists = () => {
 
                     // Alternatively, update list by requesting again from the API
                     // getMovies();
+                }).catch((err) => {
+                    console.log(err);
                 });
         }
     };
@@ -68,6 +70,7 @@ const Lists = () => {
                             <th>No.</th>
                             <th>ID</th>
                             <th>Title</th>
+                            <th>TmdbID</th>
                             <th>Popularity</th>
                             <th>Release Date</th>
                             <th>Actions</th>
@@ -86,6 +89,7 @@ const Lists = () => {
                                     <td>{index + 1}</td>
                                     <td>{movie.id}</td>
                                     <td>{movie.title}</td>
+                                    <td>{movie.tmdbId}</td>
                                     <td>{movie.popularity}</td>
                                     <td>{movie.releaseDate}</td>
                                     <td>
@@ -95,7 +99,7 @@ const Lists = () => {
                                             onClick={() => {
                                                 navigate(
                                                     '/main/movies/form/' +
-                                                    movie.id +
+                                                    movie.tmdbId +
                                                     '/cast-and-crews'
                                                 );
                                             }}
@@ -105,7 +109,7 @@ const Lists = () => {
                                         <button
                                             type="button"
                                             className="btn btn-danger btn-sm ms-2"
-                                            onClick={() => handleDelete(movie.id)}
+                                            onClick={() => handleDelete(movie.tmdbId)}
                                         >
                                             Delete
                                         </button>

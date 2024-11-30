@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState, useContext } from 'react';
+import { useCallback, useEffect, useState, useContext, useRef } from 'react';
 import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../utils/context/AuthContext';
 import './Form.css'
@@ -20,6 +20,7 @@ const Form = () => {
     const navigate = useNavigate();
     let { movieId } = useParams();
     const { auth } = useContext(AuthContext);
+    const selectorRef = useRef();
     //const { movie } = useContext(AuthContext);
     const { setMovieInfo } = useContext(AuthContext);
 
@@ -128,6 +129,13 @@ const Form = () => {
                 });
                 alert('Update Success');
             } else {
+                if (!selectorRef.current.value.trim()) {
+                    selectorRef.current.style.border = '2px solid red';
+                    setTimeout(() => {
+                        selectorRef.current.style.border = '1px solid #ccc';
+                    }, 2000);
+                    return;
+                }
                 // Create new movie
                 const data = {
                     tmdbId: selectedMovie.id,
@@ -332,11 +340,17 @@ const Form = () => {
                         />
                         <label>Is Featured</label>
                         <select
-                            className='seletor-feature'
-                            value={selectedMovie ? (selectedMovie.isFeatured === true ? 'Yes' : 'No') : ''}
+                            className="seletor-feature"
+                            value={selectedMovie && typeof selectedMovie.isFeatured === "boolean"
+                                ? (selectedMovie.isFeatured ? "Yes" : "No")
+                                : ""}
                             onChange={(e) =>
-                                setSelectedMovie({ ...selectedMovie, isFeatured: e.target.value === 'Yes' ? true : false })
+                                setSelectedMovie({
+                                    ...selectedMovie,
+                                    isFeatured: e.target.value === "Yes"
+                                })
                             }
+                            ref={selectorRef}
                         >
                             <option value="" disabled>
                                 Select an option

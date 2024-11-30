@@ -93,18 +93,75 @@
    background-color: #29293f;
 }
 
+.modal {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   position: fixed;
+   z-index: 1;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   overflow: auto;
+   background-color: rgba(16, 16, 27, 0.8);
+}
+
+.close-web-btn {
+   position: absolute;
+   top: 15px;
+   right: 35px;
+   color: #ffffff;
+   font-size: 30px;
+   transition: 0.3s;
+   cursor: pointer;
+}
+
+.close-web-btn:hover {
+   color: #707294;
+}
+
+.modal-container-content {
+   display: block;
+   width: 96%;
+   max-width: 700px;
+   border-radius: 10px;
+   animation-name: zoom;
+   animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+   from {
+      transform: scale(0)
+   }
+
+   to {
+      transform: scale(1)
+   }
+}
+
+.caption-photo {
+   display: block;
+   width: 80%;
+   max-width: 700px;
+   text-align: center;
+   color: #f1f1f1;
+   padding: 10px 0;
+   font-style: italic;
+}
+
 .not-found-message {
    color: #aaa;
    text-align: center;
    font-style: italic;
    padding: 10px;
    margin: 10px 0;
- }
+}
 
-@media (max-width: 500px) {
+@media (max-width: 800px) {
    .Movie-Tab-Info {
       display: block;
-      height: 600px;
       text-align: center;
    }
 
@@ -116,7 +173,7 @@
 
    .info-movie-flex {
       font-size: 10pt;
-      width: 80%; 
+      width: 80%;
       color: white;
       margin: 20px auto;
       text-align: center;

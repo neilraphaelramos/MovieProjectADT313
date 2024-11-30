@@ -75,6 +75,51 @@ function VideoForm() {
     return true;
   };
 
+  //This used for Importing Videos based on tmdbId from Movie
+  function importDataVideo() {
+    axios({
+      method: 'get',
+      url: `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MGY0ZjFlMmNhODQ1ZjA3NWY5MmI5ZDRlMGY3ZTEwYiIsIm5iZiI6MTcyOTkyNjY3NC40NzIwOTksInN1YiI6IjY3MTM3ODRmNjUwMjQ4YjlkYjYxZTgxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RRJNLOg8pmgYoomiCWKtwkw74T3ZtAs7ZScqxo1bzWg', // Make sure to replace this with your actual API key
+      },
+    }).then((response) => {
+      setSavePhotosImp(response.data.results);
+      alert(`Total of ${response.data.results.length} Videos are now Imported to Database`);
+      setTimeout(() => {
+        getAll(movieId);
+      }, 2000);
+    })
+  }
+
+  //Saving all Video Imported to Database
+  async function setSavePhotosImp(vidoeImportData) {
+    await Promise.all(vidoeImportData.map(async (datainfo) => {
+      const datavideo = {
+        userId: auth.user.userId,
+        movieId: movieId,
+        url: `https://www.youtube.com/embed/${datainfo.key}`,
+        videoKey: datainfo.key,
+        name: datainfo.name,
+        site: datainfo.site,
+        videoType: datainfo.type,
+        official: datainfo.official,
+      };
+      console.log('Transfering import to Database', datavideo);
+      try {
+        await axios.post('/admin/videos', datavideo, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error of Importing:', error);
+      }
+    }));
+    console.log('Imported Success');
+  }
 
   const handlesave = async () => {
     const dataphoto = {
@@ -428,6 +473,15 @@ function VideoForm() {
                 >
                   Save
                 </button>
+                <div className='Import-Btn'>
+                  <button
+                    className='btn-importer'
+                    type='button'
+                    onClick={importDataVideo}
+                  >
+                    Import All Photos
+                  </button>
+                </div>
               </>
             ) : (
               <>

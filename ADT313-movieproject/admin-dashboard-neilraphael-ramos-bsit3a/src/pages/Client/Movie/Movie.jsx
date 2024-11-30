@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from 'react';
+import React, { useEffect, useContext, useCallback, useState } from 'react';
 import { AuthContext } from '../../../utils/context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -16,14 +16,30 @@ function Movie() {
   const { movieId } = useParams();
   const navigate = useNavigate();
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentImg, setCurrentImg] = useState('');
+  const [currentCap, setCurrentCap] = useState('');
+
+  const openModalImage = (photoUrl, photoCap) => {
+    setCurrentImg(photoUrl);
+    setCurrentCap(photoCap);
+    setModalOpen(true);
+  }
+
+  const closeModalImage = () => {
+    setModalOpen(false);
+    setCurrentImg('');
+    setCurrentCap('');
+  };
+
   const fetchMovie = useCallback(() => {
     if (movieId !== undefined) {
       axios({
         method: "get",
-      url: `/movies/${movieId}`,
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`,
-      }
+        url: `/movies/${movieId}`,
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        }
       })
         .then((response) => {
           setMovie(response.data);
@@ -85,7 +101,7 @@ function Movie() {
           ) : (
             <div className="Slider-Color">
               <h1 className="Tab-Viewer-h1">Cast & Crew</h1>
-              <p className="not-found-message">No cast founded or created.</p>
+              <p className="not-found-message">No cast here? I think they have on Vacation...🏝️🍹⛱️🌊</p>
             </div>
           )}
 
@@ -106,7 +122,19 @@ function Movie() {
           ) : (
             <div className="Slider-Color">
               <h1 className="Tab-Viewer-h1">Videos</h1>
-              <p className="not-found-message">No videos founded or created.</p>
+              <p className="not-found-message">No videos yet. We will taking a video at this moment.📽️▶️</p>
+            </div>
+          )}
+
+          {modalOpen && (
+            <div className='modal' onClick={closeModalImage}>
+              <span className='close-web-btn' onClick={closeModalImage}>&times;</span>
+              <img
+                className="modal-container-content"
+                src={currentImg}
+                alt={currentCap}
+              />
+              <div className='caption-photo'>{currentCap}</div>
             </div>
           )}
 
@@ -119,6 +147,9 @@ function Movie() {
                     <PhotoCards
                       key={photo.id}
                       photo={photo}
+                      onClick={() => {
+                        openModalImage(photo.url, `${photo.description}`)
+                      }}
                     />
                   ))}
                 </div>
@@ -127,7 +158,7 @@ function Movie() {
           ) : (
             <div className="Slider-Color">
               <h1 className="Tab-Viewer-h1">Photos</h1>
-              <p className="not-found-message">No photos founded or created.</p>
+              <p className="not-found-message">No photos yet. We will taking a pic at this moment.📷🖼️</p>
             </div>
           )}
         </>

@@ -40,6 +40,49 @@ function CastForm() {
     getAll(movieId);
   }, [movieId, getAll]);
 
+  //This used for Importing Casts based on tmdbId from Movie
+  function importDataCast() {
+    axios({
+      method: 'get',
+      url: `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MGY0ZjFlMmNhODQ1ZjA3NWY5MmI5ZDRlMGY3ZTEwYiIsIm5iZiI6MTcyOTkyNjY3NC40NzIwOTksInN1YiI6IjY3MTM3ODRmNjUwMjQ4YjlkYjYxZTgxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RRJNLOg8pmgYoomiCWKtwkw74T3ZtAs7ZScqxo1bzWg', // Make sure to replace this with your actual API key
+      },
+    }).then((response) => {
+      setSaveCastsImp(response.data.cast);
+      alert(`Total of ${response.data.cast.length} Casts are now Imported to Database`);
+      setTimeout(() => {
+        getAll(movieId);
+      }, 2000);
+    })
+  }
+
+  //Saving all Cast Imported to Database
+  async function setSaveCastsImp(castImportData) {
+    await Promise.all(castImportData.map(async (datainfo) => {
+      const datacast = {
+        userId: auth.user.userId,
+        movieId: movieId,
+        name: datainfo.name,
+        characterName: datainfo.character,
+        url: `https://image.tmdb.org/t/p/w500/${datainfo.profile_path}`,
+      };
+      console.log('Transfering import to Database', datacast);
+      try {
+        await axios.post('/admin/casts', datacast, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error of Importing:', error);
+      }
+    }));
+    console.log('Imported Success');
+  }
+
   const handleSearchPerson = useCallback(async (page = 1) => {
     setNotFound(true);
     try {
@@ -208,18 +251,18 @@ function CastForm() {
     if (isConfirm) {
       axios({
         method: 'delete',
-        url: `/admin/casts/${id}`,
+        url: `/casts/${id}`,
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },
       })
         .then(() => {
+          getAll(movieId);
+          alert("Delete Success");
           console.log("Database Updated");
         })
         .catch((error) => {
           console.error(error);
-          getAll(movieId);
-          alert("Delete Success");
         });
     }
   };
@@ -296,6 +339,15 @@ function CastForm() {
                   disabled={!selectedcast}
                 >
                   Save
+                </button>
+              </div>
+              <div className='Import-Btn'>
+                <button
+                  className='btn-importer'
+                  type='button'
+                  onClick={importDataCast}
+                >
+                  Import All Casts
                 </button>
               </div>
             </>

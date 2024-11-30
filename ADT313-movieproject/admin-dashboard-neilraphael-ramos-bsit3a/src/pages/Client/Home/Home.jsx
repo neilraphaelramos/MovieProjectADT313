@@ -84,7 +84,7 @@ function Home() {
                   src={featuredMovie.posterPath}
                   alt='image-movie'
                   onClick={() => {
-                    navigate(`/home/movie/${featuredMovie.id}`);
+                    navigate(`/home/movie/${featuredMovie.tmdbId}`);
                     setMovie(featuredMovie);
                   }}
                 />
@@ -114,7 +114,7 @@ function Home() {
               key={movie.id}
               movie={movie}
               onClick={() => {
-                navigate(`/home/movie/${movie.id}`);
+                navigate(`/home/movie/${movie.tmdbId}`);
                 setMovie(movie);
               }}
             />
