@@ -99,8 +99,8 @@ const Lists = () => {
                                             onClick={() => {
                                                 navigate(
                                                     '/main/movies/form/' +
-                                                    movie.tmdbId +
-                                                    '/cast-and-crews'
+                                                    movie.id +
+                                                    '/cast-and-crews/' + movie.tmdbId
                                                 );
                                             }}
                                         >

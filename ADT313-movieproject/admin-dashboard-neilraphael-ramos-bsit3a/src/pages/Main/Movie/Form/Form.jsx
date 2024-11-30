@@ -19,6 +19,7 @@ const Form = () => {
     const [tab, setTab] = useState(tabset);
     const navigate = useNavigate();
     let { movieId } = useParams();
+    let { id } = useParams();
     const { auth } = useContext(AuthContext);
     const selectorRef = useRef();
     //const { movie } = useContext(AuthContext);
@@ -380,7 +381,7 @@ const Form = () => {
                                 className='cast-tab'
                                 onClick={() => {
                                     setTab('cast')
-                                    navigate(`/main/movies/form/${movieId}/cast-and-crews`);
+                                    navigate(`/main/movies/form/${id}/cast-and-crews/${movieId}`);
                                 }}
                                 onChange={tabselector}
                             >
@@ -390,7 +391,7 @@ const Form = () => {
                                 className='video-tab'
                                 onClick={() => {
                                     setTab('video')
-                                    navigate(`/main/movies/form/${movieId}/videos`);
+                                    navigate(`/main/movies/form/${id}/videos/${movieId}`);
                                 }}
                                 onChange={tabselector}
                             >
@@ -400,7 +401,7 @@ const Form = () => {
                                 className='photo-tab'
                                 onClick={() => {
                                     setTab('photo')
-                                    navigate(`/main/movies/form/${movieId}/photos`);
+                                    navigate(`/main/movies/form/${id}/photos/${movieId}`);
                                 }}
                                 onChange={tabselector}
                             >
