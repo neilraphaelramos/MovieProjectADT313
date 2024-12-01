@@ -5,7 +5,13 @@ function VideoCards({ video }) {
     return (
         <>
             <div className='card-video-data'>
-                <iframe src={video.url} title='video-movie'/>
+                <iframe
+                    src={video.url}
+                    title='video-movie'
+                    allowFullScreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                />
                 <span className='video-name-card'>{video.name}</span>
             </div>
         </>
