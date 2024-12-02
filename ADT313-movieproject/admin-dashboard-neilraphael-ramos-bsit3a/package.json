@@ -2,6 +2,7 @@
   "name": "admin-dashboard-neilraphael-ramos-bsit3a",
   "version": "0.1.0",
   "private": true,
+  "author": "Neil Raphael M. Ramos",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",

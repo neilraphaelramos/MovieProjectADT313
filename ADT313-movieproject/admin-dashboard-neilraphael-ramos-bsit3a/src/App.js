@@ -18,6 +18,9 @@ import Movies from './pages/Main/Movie/Movie';
 import Movie from './pages/Client/Movie/Movie';
 import ForgotPassword from './pages/Public/ForgotPassword/ForgotPassword';
 
+//ADT313 Movie Project (MovieWebDB)
+//Submitted by: Neil Raphael M. Ramos
+
 const router = createBrowserRouter([
   {
     path: '/',
