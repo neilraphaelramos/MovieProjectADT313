@@ -1,10 +1,10 @@
 import React from 'react'
 import './VideoCards.css'
 
-function VideoCards({ video }) {
+function VideoCards({ video, onClick }) {
     return (
         <>
-            <div className='card-video-data'>
+            <div className='card-video-data' onClick={onClick}>
                 <iframe
                     src={video.url}
                     title='video-movie'

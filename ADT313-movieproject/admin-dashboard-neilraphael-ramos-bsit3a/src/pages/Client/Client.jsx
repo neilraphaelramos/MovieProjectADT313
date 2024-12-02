@@ -34,10 +34,12 @@ function Client() {
         button?.addEventListener('click', toggleSidebar);
         button2?.addEventListener('click', toggleSidebar);
         button3?.addEventListener('click', toggleSidebar);
+        coverSidebar?.addEventListener('click', toggleSidebar);
         return () => {
             button?.removeEventListener('click', toggleSidebar);
             button2?.removeEventListener('click', toggleSidebar);
             button3?.removeEventListener('click', toggleSidebar);
+            coverSidebar?.removeEventListener('click', toggleSidebar);
         };
     }, []);
 
@@ -77,7 +79,7 @@ function Client() {
                     <div className="icons">
                     </div>
                 </footer>
-                <div className='cover-sidebar'></div>
+                <div className='cover-sidebar' id="toggleButton"></div>
                 <div className='sidebar'>
                     <button className='close-sidebar' id="toggleButton">
                         <FontAwesomeIcon icon={faCaretRight} />

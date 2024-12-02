@@ -39,7 +39,6 @@
     width: calc(100% - 20px);
     max-width: 500px;
     padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 0.9rem;
@@ -56,7 +55,6 @@
 .Login-Form .form-check {
     text-align: left;
     margin-bottom: 20px;
-    margin-top: 10px;
     display: flex;
 }
 
@@ -67,6 +65,21 @@
 .Login-Form .form-check .showpassword-login {
     font-size: 0.85rem;
     color: #666666;
+}
+
+.selection-login {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forgotpassword-login {
+    font-size: 0.85rem;
+    color: #666666;
+    cursor: pointer;
+}
+
+.forgotpassword-login:hover {
+    color: #48465a;
 }
 
 .Login-Form .btn {
@@ -102,7 +115,7 @@
     color: #6a11cb;
 }
 
-.text-danger {
+.text-danger-login {
     font-size: 0.85rem;
     color: #ff4d4f;
     text-align: left;
@@ -119,6 +132,12 @@
     border-radius: 10px;
     border: #ff4d4f solid 1px;
     color: #ffffff;
+}
+
+.error-display {
+    width: 100%;
+    height: 17px;
+    padding: 2px;
 }
 
 @media (max-width: 500px) {
@@ -158,7 +177,7 @@
         color: #6a11cb;
     }
 
-    .text-danger {
-        margin-top: -10px;
+    .text-danger-login {
+        font-size: 0.65rem;
     }
 }

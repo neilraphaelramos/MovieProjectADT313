@@ -56,14 +56,21 @@ function Register() {
         break;
     }
   };
-  
+
+  let apiEndpoint;
+
+  if (window.location.pathname.includes('/admin')) {
+    apiEndpoint = '/admin/register';
+  } else {
+    apiEndpoint = '/user/register';
+  };
 
   const handleRegister = async () => {
     const data = { email, password, firstName, middleName, lastName, contactNo };
     setStatus('loading');
     await axios({
       method: 'post',
-      url: '/user/register',
+      url: apiEndpoint,
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })
@@ -116,9 +123,11 @@ function Register() {
               onChange={(e) => handleOnChange(e, 'firstName')}
               required
             />
-            {debounceState && isFieldsDirty && middleName === '' && (
-              <small className="text-danger">This field is required</small>
-            )}
+            <div className='error-display-register'>
+              {debounceState && isFieldsDirty && firstName === '' && (
+                <strong className="text-danger-register">This field is required</strong>
+              )}
+            </div>
 
             <label htmlFor="middleName">Middle Name:</label>
             <input
@@ -129,9 +138,11 @@ function Register() {
               onChange={(e) => handleOnChange(e, 'middleName')}
               required
             />
-            {debounceState && isFieldsDirty && middleName === '' && (
-              <small className="text-danger">This field is required</small>
-            )}
+            <div className='error-display-register'>
+              {debounceState && isFieldsDirty && middleName === '' && (
+                <strong className="text-danger-register">This field is required</strong>
+              )}
+            </div>
 
             <label htmlFor="lastName">Last Name:</label>
             <input
@@ -142,10 +153,12 @@ function Register() {
               onChange={(e) => handleOnChange(e, 'lastName')}
               required
             />
-            {debounceState && isFieldsDirty && lastName === '' && (
-              <small className="text-danger">This field is required</small>
-            )}
-
+            <div className='error-display-register'>
+              {debounceState && isFieldsDirty && lastName === '' && (
+                <strong className="text-danger-register">This field is required</strong>
+              )}
+            </div>
+            
             <label htmlFor="contactNo">Contact Number:</label>
             <input
               type="text"
@@ -155,9 +168,11 @@ function Register() {
               onChange={(e) => handleOnChange(e, 'contactNo')}
               required
             />
-            {debounceState && isFieldsDirty && contactNo === '' && (
-              <small className="text-danger">This field is required</small>
-            )}
+            <div className='error-display-register'>
+              {debounceState && isFieldsDirty && contactNo === '' && (
+                <strong className="text-danger-register">This field is required</strong>
+              )}
+            </div>
 
             <label htmlFor="email">Email:</label>
             <input
@@ -168,9 +183,11 @@ function Register() {
               onChange={(e) => handleOnChange(e, 'email')}
               required
             />
-            {debounceState && isFieldsDirty && email === '' && (
-              <small className="text-danger">This field is required</small>
-            )}
+            <div className='error-display-register'>
+              {debounceState && isFieldsDirty && email === '' && (
+                <strong className="text-danger-register">This field is required</strong>
+              )}
+            </div>
 
             <label htmlFor="password">Password:</label>
             <input
@@ -181,9 +198,11 @@ function Register() {
               onChange={(e) => handleOnChange(e, 'password')}
               required
             />
-            {debounceState && isFieldsDirty && password === '' && (
-              <small className="text-danger">This field is required</small>
-            )}
+            <div className='error-display-register'>
+              {debounceState && isFieldsDirty && password === '' && (
+                <strong className="text-danger-register">This field is required</strong>
+              )}
+            </div>
 
             <div className="form-check">
               <input

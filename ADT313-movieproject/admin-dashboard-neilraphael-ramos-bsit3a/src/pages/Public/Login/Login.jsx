@@ -73,7 +73,7 @@ function Login() {
         });
         setAlertMessage(res.data.message);
         setTimeout(() => {
-          if(res.data.user.role === 'admin') {
+          if (res.data.user.role === 'admin') {
             navigate('/main/dashboard');
           } else {
             navigate('/home')
@@ -122,9 +122,11 @@ function Login() {
               ref={emailRef}
               onChange={(e) => handleOnChange(e, 'email')}
             />
-            {debounceState && isFieldsDirty && email === '' && (
-              <span className="text-danger"><strong>This field is required</strong></span>
-            )}
+            <div className='error-display'>
+              {debounceState && isFieldsDirty && email === '' && (
+                <span className="text-danger-login"><strong>This field is required</strong></span>
+              )}
+            </div>
 
             <label htmlFor="password"><strong>Password:</strong></label>
             <input
@@ -134,20 +136,28 @@ function Login() {
               ref={passwordRef}
               onChange={(e) => handleOnChange(e, 'password')}
             />
-            {debounceState && isFieldsDirty && password === '' && (
-              <span className="text-danger"><strong>This field is required</strong></span>
-            )}
-
-            <div className="form-check">
-              <input
-                type="checkbox"
-                id="showPassword"
-                onClick={handleShowPassword}
-              />
-              <div className='showpassword-login' htmlFor="showPassword">
-                {isShowPassword ? 'Hide' : 'Show'} Password
-              </div>
+            <div className='error-display'>
+              {debounceState && isFieldsDirty && password === '' && (
+                <span className="text-danger-login"><strong>This field is required</strong></span>
+              )}
             </div>
+
+            <div className='selection-login'>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  onClick={handleShowPassword}
+                />
+                <div className='showpassword-login' htmlFor="showPassword">
+                  {isShowPassword ? 'Hide' : 'Show'} Password
+                </div>
+              </div>
+              <a className='forgotpassword-login' href='/reset-password'>
+                Forgot Password?
+              </a>
+            </div>
+
             <div className='button-box-login'>
               <button
                 type="button"

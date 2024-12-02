@@ -16,18 +16,27 @@ function Movie() {
   const { movieId } = useParams();
   const navigate = useNavigate();
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [photoModalOpen, setPhotoModalOpen] = useState(false);;
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [currentImg, setCurrentImg] = useState('');
   const [currentCap, setCurrentCap] = useState('');
+  const [currentVideoUrl, setCurrentVideoUrl] = useState('');
 
   const openModalImage = (photoUrl, photoCap) => {
     setCurrentImg(photoUrl);
     setCurrentCap(photoCap);
-    setModalOpen(true);
+    setPhotoModalOpen(true);
   }
 
-  const closeModalImage = () => {
-    setModalOpen(false);
+  const openModalVideo = (videoUrl) => {
+    setCurrentVideoUrl(videoUrl);
+    setVideoModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setPhotoModalOpen(false);
+    setVideoModalOpen(false);
+    setCurrentVideoUrl('');
     setCurrentImg('');
     setCurrentCap('');
   };
@@ -114,6 +123,9 @@ function Movie() {
                     <VideoCards
                       key={video.id}
                       video={video}
+                      onClick={() => {
+                        openModalVideo(video.url)
+                      }}
                     />
                   ))}
                 </div>
@@ -126,15 +138,29 @@ function Movie() {
             </div>
           )}
 
-          {modalOpen && (
-            <div className='modal' onClick={closeModalImage}>
-              <span className='close-web-btn' onClick={closeModalImage}>&times;</span>
+          {photoModalOpen && (
+            <div className='modal' onClick={closeModal}>
+              <span className='close-web-btn' onClick={closeModal}>&times;</span>
               <img
                 className="modal-container-content"
                 src={currentImg}
                 alt={currentCap}
               />
               <div className='caption-photo'>{currentCap}</div>
+            </div>
+          )}
+
+          {videoModalOpen && (
+            <div className="modal" onClick={closeModal}>
+              <span className="close-web-btn" onClick={closeModal}>&times;</span>
+              <iframe
+                className="modal-container-content-video"
+                src={currentVideoUrl}
+                title="Video-Display"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
             </div>
           )}
 

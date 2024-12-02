@@ -291,7 +291,14 @@ function CastForm() {
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
                   </div>
-                  <img src={actor.url} alt={actor.name} style={{ width: '100%' }} className='image-casts' />
+                  <img src={
+                    actor.url && actor.url !== 'https://image.tmdb.org/t/p/w500/null'
+                      ? actor.url
+                      : require('./../../../../utils/images/default.jpeg')
+                  }
+                    alt={actor.name}
+                    style={{ width: '100%' }}
+                    className='image-casts' />
                   <div className="container">
                     <h4><b>{actor.name}</b></h4>
                     <p>{actor.characterName}</p>
