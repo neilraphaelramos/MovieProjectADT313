@@ -55,7 +55,7 @@ function Movie() {
         })
         .catch((e) => {
           console.log(e);
-          navigate('/home');
+          //navigate('/home');
         });
     }
   }, [movieId, auth.accessToken, navigate, setMovie]);
