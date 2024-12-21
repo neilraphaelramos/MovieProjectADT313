@@ -62,7 +62,7 @@ function Register() {
     setStatus('loading');
     await axios({
       method: 'post',
-      url: '/admin/login',
+      url: '/admin/register',
       data,
       headers: { 'Access-Control-Allow-Origin': '*' },
     })
